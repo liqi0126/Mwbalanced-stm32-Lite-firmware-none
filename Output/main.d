@@ -1,7 +1,7 @@
 .\output\main.o: User\main.c
 .\output\main.o: .\CMSIS\stm32f10x.h
 .\output\main.o: .\CMSIS\core_cm3.h
-.\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\main.o: .\CMSIS\system_stm32f10x.h
 .\output\main.o: .\User\stm32f10x_conf.h
 .\output\main.o: .\FWlib\inc\stm32f10x_dma.h

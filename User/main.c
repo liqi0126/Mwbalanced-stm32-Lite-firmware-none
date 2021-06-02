@@ -26,6 +26,8 @@
 #include "manage.h"
 
 
+int stage = 0;
+
 //秒级任务
 void SecTask()
 {
@@ -66,13 +68,75 @@ int main(void)
 		
 		SecTask();			//秒级任务
 
+		// 自动化完成4个任务
+		if (stage == 0) { // 前进1m
+			// TODO: 加个按钮判断开始
+			if (g_s32LeftMotorPulseCum + g_s32RightMotorPulseCum > 20000) {
+				g_iCarSpeedSet = 0;
+				SoftTimer[3] = 1500;
+				stage = 1;
+			} else {
+				g_iCarSpeedSet = 50;
+			}
+		} else if (stage == 1) { // 暂停1-3s
+			if (SoftTimer[3] == 0) {
+				stage = 2;
+			}
+		} else if (stage == 2) { // 后退1m
+			if (g_s32LeftMotorPulseCum + g_s32RightMotorPulseCum <= 0) {
+				g_iCarSpeedSet = 0;
+				SoftTimer[3] = 1500;
+				stage = 3;
+			} else {
+				g_iCarSpeedSet = -50;
+			}
+		} else if (stage == 3) { // 暂停1-3s
+			if (SoftTimer[3] == 0) {
+				stage = 4;
+			}
+		} else if (stage == 4) { // 左转90-180度
+			if (g_s32RightMotorPulseCum - g_s32LeftMotorPulseCum >= 2500) {
+				g_iCarSpeedSet = 0;
+				g_fBluetoothDirection = 0;
+				SoftTimer[3] = 1500;
+				DirectionControlEnable();
+				stage = 5;
+			} else {
+				g_iCarSpeedSet = 50;
+				g_fBluetoothDirection = -150;
+				DirectionControlDisable();
+			}
+		} else if (stage == 5) { // 暂停1-3s
+			if (SoftTimer[3] == 0) {
+				stage = 6;
+			}
+		} else if (stage == 6) { // 右转90-180度
+			if (g_s32RightMotorPulseCum - g_s32LeftMotorPulseCum <= -2500) {
+				g_iCarSpeedSet = 0;
+				g_fBluetoothDirection = 0;
+				SoftTimer[3] = 1500;
+				DirectionControlEnable();
+				stage = 7;
+			} else {
+				g_iCarSpeedSet = 50;
+				g_fBluetoothDirection = 150;
+				DirectionControlDisable();
+			}
+		} else {								 // 停止
+			if (SoftTimer[3] == 0) {
+				g_iCarSpeedSet = 0;
+				g_fBluetoothDirection = 0;
+			}
+		}
+		
+		
+		
 		if(SoftTimer[1] == 0)
 		{// 每隔20ms 执行一次
 			SoftTimer[1] = 20;
 			ResponseIMU();			
 			DebugService();			
 			Parse(Uart3Buffer);
-			
 		}			
   	
 		if(SoftTimer[2] == 0)
@@ -91,7 +155,7 @@ int main(void)
 			else if(g_CarRunningMode == INFRARED_TRACE_MODE){
 				TailingControl();
 			}
-		}			
+		}
 	}
 }
 

@@ -37,8 +37,12 @@ float g_fSpeedControlOut;
 float g_fSpeedControlOutOld;
 float g_fSpeedControlOutNew;
 float g_fAngleControlOut;
+float g_fYawControlOut; // TODO: PID ?
 float g_fLeftMotorOut;
 float g_fRightMotorOut;
+float g_fMotorPulseDiffControlOut; // TODO: PID ?
+float g_fLeftMotorPulseControlOut; // TODO: PID ?
+float g_fRightMotorPulseControlOut; // TODO: PID ?
 
 /******速度控制参数******/
 
@@ -49,15 +53,25 @@ int  g_s32LeftMotorPulseOld;
 int  g_s32RightMotorPulseOld;
 int  g_s32LeftMotorPulseSigma;
 int  g_s32RightMotorPulseSigma;
+int  g_s32LeftMotorPulseCum;
+int  g_s32RightMotorPulseCum;
+int	 g_s32MotorPulseDiff;
+int  g_s32MotorPulseDiffCum;
 
 float g_fCarSpeed;
 float g_iCarSpeedSet;
 float g_fCarSpeedOld;
 float g_fCarPosition;
 
+int g_iCarLeftMotorPulseSet;
+int g_iCarRightMotorPulseSet;
+
 /*-----角度环和速度环PID控制参数-----*/
 PID_t g_tCarAnglePID={17.0, 0, 23.0};	//*5 /10
 PID_t g_tCarSpeedPID={15.25, 1.08, 0};	//i/10
+PID_t g_tYawAnglePID={17.0, 0, 23.0};
+PID_t g_tPulseDiffPID={5., 0.5, 0};
+PID_t g_tPulseCumPID={5., 0, 0.};
 /******蓝牙控制参数******/
 float g_fBluetoothSpeed;
 float g_fBluetoothDirection;
@@ -66,7 +80,9 @@ float g_fBluetoothDirectionNew;
 float g_fBluetoothDirectionOut;
 
 float g_fCarAngle;         	//
-float g_fGyroAngleSpeed;		//     			
+float g_fYawAngle;					//
+float g_fGyroAngleSpeed;		//   
+float g_fGyroYawSpeed;			//
 float g_fGravityAngle;			//
 
 
@@ -99,12 +115,28 @@ void CarUpstandInit(void)
 
 	g_fAngleControlOut = g_fSpeedControlOut = g_fBluetoothDirectionOut = 0;
 	g_fLeftMotorOut    = g_fRightMotorOut   = 0;
-	g_fBluetoothSpeed  = g_fBluetoothDirection = 0;
+	g_fBluetoothSpeed  = 0;
+	g_fBluetoothDirection = 0;
 	g_fBluetoothDirectionNew = g_fBluetoothDirectionOld = 0;
 
   g_u8MainEventCount=0;
 	g_u8SpeedControlCount=0;
  	g_u8SpeedControlPeriod=0;
+	
+	
+	// Yaw角控制方向
+	g_fYawAngle = 0;
+	g_fGyroYawSpeed = 0;
+	
+	
+	// 脉冲数控制方向和位置
+	g_s32LeftMotorPulseCum = 0;
+	g_s32RightMotorPulseCum = 0;
+	
+	
+	// 目标位置
+	g_iCarLeftMotorPulseSet = 0;
+	g_iCarRightMotorPulseSet = 0;
 }
 
 
@@ -297,9 +329,8 @@ void SetMotorVoltageAndDirection(int i16LeftVoltage,int i16RightVoltage)
 ***************************************************************/
 void MotorOutput(void)
 {
-	g_fLeftMotorOut  = g_fAngleControlOut - g_fSpeedControlOut - g_fBluetoothDirection ;	//这里的电机输出等于角度环控制量 + 速度环外环,这里的 - g_fSpeedControlOut 是因为速度环的极性跟角度环不一样，角度环是负反馈，速度环是正反馈
-	g_fRightMotorOut = g_fAngleControlOut - g_fSpeedControlOut + g_fBluetoothDirection ;
-
+	g_fLeftMotorOut  = g_fAngleControlOut - g_fSpeedControlOut - g_fBluetoothDirection - g_fMotorPulseDiffControlOut; // - g_fLeftMotorPulseControlOut;	//这里的电机输出等于角度环控制量 + 速度环外环,这里的 - g_fSpeedControlOut 是因为速度环的极性跟角度环不一样，角度环是负反馈，速度环是正反馈
+	g_fRightMotorOut = g_fAngleControlOut - g_fSpeedControlOut + g_fBluetoothDirection + g_fMotorPulseDiffControlOut; // - g_fRightMotorPulseControlOut;
 
 	/*增加死区常数*/
 	if((int)g_fLeftMotorOut>0)       g_fLeftMotorOut  += MOTOR_OUT_DEAD_VAL;
@@ -321,12 +352,18 @@ void MotorOutput(void)
 void GetMotorPulse(void)  //采集电机速度脉冲
 { 	
   g_s16LeftMotorPulse = TIM_GetCounter(TIM2);     
-  g_s16RightMotorPulse= -TIM_GetCounter(TIM4);
+  g_s16RightMotorPulse = -TIM_GetCounter(TIM4);
+
   TIM2->CNT = 0;
   TIM4->CNT = 0;   //清零
 
+	g_s32LeftMotorPulseCum += g_s16LeftMotorPulse;
+	g_s32RightMotorPulseCum += g_s16RightMotorPulse;
+	g_s32MotorPulseDiffCum = g_s32LeftMotorPulseCum - g_s32RightMotorPulseCum;
+	
   g_s32LeftMotorPulseSigma +=  g_s16LeftMotorPulse;
   g_s32RightMotorPulseSigma += g_s16RightMotorPulse; 
+	g_s32MotorPulseDiff = g_s32LeftMotorPulseSigma - g_s32RightMotorPulseSigma;
 	
 	g_iLeftTurnRoundCnt -= g_s16LeftMotorPulse;
 	g_iRightTurnRoundCnt -= g_s16RightMotorPulse;
@@ -360,6 +397,7 @@ void AngleCalculate(void)
 	//-------互补滤波---------------
 	g_fCarAngle = 0.98 * (g_fCarAngle + g_fGyroAngleSpeed * 0.005) + 0.02 *	g_fGravityAngle;
 }
+
 /***************************************************************
 ** 作　  者: 喵呜实验室MiaowLabs
 ** 官    网：http://www.miaowlabs.com
@@ -378,6 +416,65 @@ void AngleControl(void)
 	(CAR_ANGLE_SPEED_SET-g_fGyroAngleSpeed) * (g_tCarAnglePID.D /10);
 }
 
+
+void YawCalculate(void)
+{
+	
+	g_fGyro_z = g_fGyro_z / 16.4;
+	g_fGyroYawSpeed = g_fGyro_z;
+	g_fYawAngle = g_fYawAngle + g_fGyroYawSpeed * 0.005;
+		
+}
+
+
+void YawControl(void)
+{
+	g_fYawControlOut = (CAR_YAW_SET - g_fYawAngle) * g_tYawAnglePID.P * 5 + \
+	(YAW_ANGLE_SPEED_SET-g_fGyroYawSpeed) * (g_tYawAnglePID.D / 10);
+}
+
+void MotorDiffControl(void)
+{
+	g_fMotorPulseDiffControlOut = (CAR_MOTOR_PLUSE_DIFF - g_s32MotorPulseDiff) * g_tPulseDiffPID.P + \
+	(CAR_MOTOR_PLUSE_CUM_DIFF - g_s32MotorPulseDiffCum) * g_tPulseDiffPID.I;
+}
+
+void DirectionControlEnable(void)
+{
+	g_tPulseDiffPID.P = 5;
+	g_tPulseDiffPID.I = 0.5;
+	g_s32LeftMotorPulseCum = 0;
+	g_s32RightMotorPulseCum = 0;
+}
+
+void DirectionControlDisable(void)
+{
+	g_tPulseDiffPID.P = 0;
+	g_tPulseDiffPID.I = 0;
+}
+
+
+void MotorNumControl(void)
+{
+	g_fLeftMotorPulseControlOut = (CAR_LEFT_MOTOR_PULSE_SET - g_s32LeftMotorPulseCum) * g_tPulseCumPID.P; // P control
+	
+	if (g_fLeftMotorPulseControlOut > 200) {
+		g_fLeftMotorPulseControlOut = 200;
+	}
+	if (g_fLeftMotorPulseControlOut < -200) {
+		g_fLeftMotorPulseControlOut = -200;
+	}
+	
+	g_fRightMotorPulseControlOut = (CAR_LEFT_MOTOR_PULSE_SET - g_s32LeftMotorPulseCum) * g_tPulseCumPID.P; // P control
+	
+		if (g_fRightMotorPulseControlOut > 200) {
+		g_fRightMotorPulseControlOut = 200;
+	}
+	if (g_fRightMotorPulseControlOut < -200) {
+		g_fRightMotorPulseControlOut = -200;
+	}
+	
+}
 
 
 /***************************************************************

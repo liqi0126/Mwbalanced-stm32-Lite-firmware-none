@@ -2,7 +2,7 @@
 .\output\ultrasonic.o: .\FWlib\inc\stm32f10x_gpio.h
 .\output\ultrasonic.o: .\CMSIS\stm32f10x.h
 .\output\ultrasonic.o: .\CMSIS\core_cm3.h
-.\output\ultrasonic.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\ultrasonic.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\ultrasonic.o: .\CMSIS\system_stm32f10x.h
 .\output\ultrasonic.o: .\User\stm32f10x_conf.h
 .\output\ultrasonic.o: .\FWlib\inc\stm32f10x_dma.h

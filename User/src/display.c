@@ -73,11 +73,13 @@ void ShowHomePage(void)
 	}
 	
 	if(step == 4){
-		snprintf((char*)buff, 21, "Angle:     %0.1f      ", g_fCarAngle);
+		// snprintf((char*)buff, 21, "Angle:     %0.1f      ", g_fCarAngle);
+		snprintf((char*)buff, 21, "Left Motor: %d", g_s32LeftMotorPulseCum);
 		OLED_ShowString(0, 4, buff);
 	}
 	if(step == 5){
-		snprintf((char*)buff, 21, "Battery:   %0.1f(V)      ", g_BatVolt/100.0);
+		// snprintf((char*)buff, 21, "Battery:   %0.1f(V)      ", g_BatVolt/100.0);
+		snprintf((char*)buff, 21, "Right Motor: %d", g_s32RightMotorPulseCum);
 		OLED_ShowString(0, 5, buff);		
 		}
 }

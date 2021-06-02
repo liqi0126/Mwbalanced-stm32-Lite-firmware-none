@@ -3,84 +3,58 @@
 <pre>
 <h1>礦ision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: μVision V5.17.0.0
-Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Sone Microsoft, Microsoft, LIC=LJWMM-XBPAS-YCFJ1-CNJ3F-4WUZ0-NH2NB
+IDE-Version: μVision V5.34.0.0
+Copyright (C) 2021 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: miaowlabs miaowlabs, miaowlabs, LIC=32B1Q-NJUIR-GKWBG-V9MJP-F58IV-J6T1P
  
 Tool Versions:
-Toolchain:       MDK-ARM Professional  Version: 5.17
-Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
-C Compiler:      Armcc.exe V5.06 update 1 (build 61)
-Assembler:       Armasm.exe V5.06 update 1 (build 61)
-Linker/Locator:  ArmLink.exe V5.06 update 1 (build 61)
-Library Manager: ArmAr.exe V5.06 update 1 (build 61)
-Hex Converter:   FromElf.exe V5.06 update 1 (build 61)
-CPU DLL:         SARMCM3.DLL V5.17
-Dialog DLL:      DARMSTM.DLL V1.65.0.0
-Target DLL:      Segger\JL2CM3.dll V2.99.16.0
-Dialog DLL:      TARMSTM.DLL V1.64.0.0
+Toolchain:       MDK-ARM Plus  Version: 5.34.0.0
+Toolchain Path:  D:\Keil\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 7 (build 960)
+Assembler:       Armasm.exe V5.06 update 7 (build 960)
+Linker/Locator:  ArmLink.exe V5.06 update 7 (build 960)
+Library Manager: ArmAr.exe V5.06 update 7 (build 960)
+Hex Converter:   FromElf.exe V5.06 update 7 (build 960)
+CPU DLL:         SARMCM3.DLL V5.34.0.0
+Dialog DLL:      DARMSTM.DLL V1.68.0.0
+Target DLL:      Segger\JL2CM3.dll V2.99.38.0
+Dialog DLL:      TARMSTM.DLL V1.66.0.0
  
 <h2>Project:</h2>
-F:\05产品配套资料\MiaowLabs两轮自平衡小车「小霸王Lite」光盘\02、程序源代码\Mwbalanced-stm32-小霸王Lite-firmware-互补滤波-none V3.36\BasicBalance.uvprojx
-Project File Date:  02/20/2020
+F:\GitHubDesktop\Repository\Mwbalanced-stm32-Lite-firmware-none\BasicBalance.uvprojx
+Project File Date:  06/02/2021
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
-Rebuild target 'BasicBalance'
-compiling misc.c...
-compiling stm32f10x_dma.c...
-compiling stm32f10x_exti.c...
-compiling stm32f10x_rcc.c...
-compiling stm32f10x_gpio.c...
-compiling stm32f10x_i2c.c...
-compiling stm32f10x_usart.c...
-compiling stm32f10x_adc.c...
-compiling stm32f10x_tim.c...
-compiling core_cm3.c...
-assembling startup_stm32f10x_md.s...
-compiling stm32f10x_flash.c...
-compiling system_stm32f10x.c...
-compiling bsp.c...
-compiling MPU6050.c...
-compiling oled.c...
-compiling ADC.c...
-compiling usart.c...
-compiling I2C.c...
-compiling ultrasonic.c...
-compiling motor.c...
-compiling infrare.c...
-compiling debug.c...
+*** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\Keil\ARM\ARMCC\Bin'
+Build target 'BasicBalance'
 compiling main.c...
-compiling systick.c...
-compiling stm32f10x_it.c...
-compiling common.c...
-compiling communicate.c...
-compiling display.c...
-compiling dataflash.c...
-compiling control.c...
-compiling manage.c...
 linking...
-Program Size: Code=28186 RO-data=2590 RW-data=1968 ZI-data=1312  
+Program Size: Code=29238 RO-data=2594 RW-data=2060 ZI-data=1308  
 FromELF: creating hex file...
 ".\Output\BasicBalance.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
 Package Vendor: ARM
-                http://www.keil.com/pack/ARM.CMSIS.4.5.0.pack
-                ARM::CMSIS:CORE:4.3.0
+                http://www.keil.com/pack/ARM.CMSIS.5.7.0.pack
+                ARM.CMSIS.5.7.0
                 CMSIS (Cortex Microcontroller Software Interface Standard)
-   * Component: CORE Version: 4.3.0
+   * Component: CORE Version: 5.4.0
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F1xx_DFP.2.3.0.pack
+                Keil.STM32F1xx_DFP.2.3.0
+                STMicroelectronics STM32F1 Series Device Support, Drivers and Examples
 
 <h2>Collection of Component include folders:</h2>
-  F:\05产品配套资料\MiaowLabs两轮自平衡小车「小霸王Lite」光盘\02、程序源代码\Mwbalanced-stm32-小霸王Lite-firmware-互补滤波-none V3.36\RTE
-  C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include
-  C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include
+  .\RTE\_BasicBalance
+  D:\Arm_packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include
+  D:\Arm_packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
 
-   * Component: ARM::CMSIS:CORE:4.3.0
-Build Time Elapsed:  00:00:06
+   * Component: ARM::CMSIS:CORE:5.4.0
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

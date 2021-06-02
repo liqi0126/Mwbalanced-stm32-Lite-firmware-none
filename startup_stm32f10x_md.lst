@@ -465,12 +465,11 @@ ARM Macro Assembler    Page 8
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=.\output\startup_stm32f10x_md.d -o.\output\startup_stm32f10x_md.o 
--I"F:\05产品配套资料\MiaowLabs两轮自平衡小车「小霸王Lite」光盘\02、程序源代码\M
-wbalanced-stm32-小霸王Lite-firmware-互补滤波-none V3.36\RTE" -IC:\Keil_v5\ARM\P
-ACK\ARM\CMSIS\4.5.0\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.
-0\Device\Include --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION
- SETA 517" --predefine="_RTE_ SETA 1" --predefine="STM32F10X_MD SETA 1" --list=
-.\startup_stm32f10x_md.lst CMSIS\startup\startup_stm32f10x_md.s
+-I.\RTE\_BasicBalance -ID:\Arm_packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include -ID:\Ar
+m_packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include --predefine="__MICROLIB SETA 1"
+ --predefine="__UVISION_VERSION SETA 534" --predefine="_RTE_ SETA 1" --predefin
+e="STM32F10X_MD SETA 1" --predefine="_RTE_ SETA 1" --list=.\startup_stm32f10x_m
+d.lst CMSIS\startup\startup_stm32f10x_md.s
 
 
 
