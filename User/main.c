@@ -105,9 +105,7 @@ int main(void)
 						turning = 0;
 			} else {
 				if (direction == 0) {
-					if (Distance >= 30) { 								// 向前无障碍物, 直行
-						g_iCarSpeedSet = 50;
-					} else {															// 否则转弯
+					if (Distance >= 0 && Distance <= 30) {  // 否则转弯
 						if (!rightVisited) {								// 先向右转
 							rightVisited = 1;
 							Turn(90);
@@ -115,7 +113,9 @@ int main(void)
 						} else {
 							Turn(-90);
 							direction = -1;
-						}
+						}						
+					} else {															
+						g_iCarSpeedSet = 50;   // 向前无障碍物, 直行
 					}
 				} else if (direction == 1) { // 向右探索
 					if (pitching) {
