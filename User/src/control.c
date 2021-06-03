@@ -37,12 +37,9 @@ float g_fSpeedControlOut;
 float g_fSpeedControlOutOld;
 float g_fSpeedControlOutNew;
 float g_fAngleControlOut;
-float g_fYawControlOut; // TODO: PID ?
 float g_fLeftMotorOut;
 float g_fRightMotorOut;
 float g_fMotorPulseDiffControlOut; // TODO: PID ?
-float g_fLeftMotorPulseControlOut; // TODO: PID ?
-float g_fRightMotorPulseControlOut; // TODO: PID ?
 
 /******速度控制参数******/
 
@@ -125,19 +122,9 @@ void CarUpstandInit(void)
  	g_u8SpeedControlPeriod=0;
 	
 	
-	// Yaw角控制方向
-	g_fYawAngle = 0;
-	g_fGyroYawSpeed = 0;
-	
-	
 	// 脉冲数控制方向和位置
 	g_s32LeftMotorPulseCum = 0;
 	g_s32RightMotorPulseCum = 0;
-	
-	
-	// 目标位置
-	g_iCarLeftMotorPulseSet = 0;
-	g_iCarRightMotorPulseSet = 0;
 }
 
 
@@ -417,49 +404,10 @@ void AngleControl(void)
 	(CAR_ANGLE_SPEED_SET-g_fGyroAngleSpeed) * (g_tCarAnglePID.D /10);
 }
 
-
-void YawCalculate(void)
-{
-	
-	g_fGyro_z = g_fGyro_z / 16.4;
-	g_fGyroYawSpeed = g_fGyro_z;
-	g_fYawAngle = g_fYawAngle + g_fGyroYawSpeed * 0.005;
-		
-}
-
-
-void YawControl(void)
-{
-	g_fYawControlOut = (CAR_YAW_SET - g_fYawAngle) * g_tYawAnglePID.P * 5 + \
-	(YAW_ANGLE_SPEED_SET-g_fGyroYawSpeed) * (g_tYawAnglePID.D / 10);
-}
-
 void MotorDiffControl(void)
 {
 	g_fMotorPulseDiffControlOut = (CAR_MOTOR_PLUSE_DIFF_SET - g_s32MotorPulseDiff) * g_tPulseDiffPID.P + \
 	(CAR_MOTOR_PLUSE_CUM_DIFF_SET - g_s32MotorPulseDiffCum) * g_tPulseDiffPID.I;
-}
-
-void MotorNumControl(void)
-{
-	g_fLeftMotorPulseControlOut = (CAR_LEFT_MOTOR_PULSE_SET - g_s32LeftMotorPulseCum) * g_tPulseCumPID.P; // P control
-	
-	if (g_fLeftMotorPulseControlOut > 200) {
-		g_fLeftMotorPulseControlOut = 200;
-	}
-	if (g_fLeftMotorPulseControlOut < -200) {
-		g_fLeftMotorPulseControlOut = -200;
-	}
-	
-	g_fRightMotorPulseControlOut = (CAR_LEFT_MOTOR_PULSE_SET - g_s32LeftMotorPulseCum) * g_tPulseCumPID.P; // P control
-	
-		if (g_fRightMotorPulseControlOut > 200) {
-		g_fRightMotorPulseControlOut = 200;
-	}
-	if (g_fRightMotorPulseControlOut < -200) {
-		g_fRightMotorPulseControlOut = -200;
-	}
-	
 }
 
 

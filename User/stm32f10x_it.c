@@ -155,14 +155,11 @@ void SysTick_Handler(void)
 	{
 		MPU6050_Pose();				 //读取MPU6050数据函数，每5ms执行一次
 		AngleCalculate();			 //角度环计算函数，每5ms执行一次
-		YawCalculate();				 //Yaw角计算，每5ms执行一次
 	}
 	else if(g_u8MainEventCount==2)
 	{
 		AngleControl();				 //角度环控制函数，每5ms执行一次
-		// YawControl();
 		MotorDiffControl();
-		// MotorNumControl();
 	}
 	else if(g_u8MainEventCount==3)
 	{
