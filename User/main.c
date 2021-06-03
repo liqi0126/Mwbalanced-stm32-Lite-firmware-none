@@ -36,8 +36,6 @@ void SecTask()
 	g_BatVolt = GetBatVoltage(); // 读取电池电压
 	
 	if(StatusFlag)ResponseStatus();
-	
-	LEDToggle();
 }
 
 // direction: 
@@ -61,6 +59,7 @@ void Turn(int angle) {
 	g_s32MotorPulseSumCum = 0;
 }
 
+int distanceLE30 = 0;
 
 /*
 	主函数入门，另外，控制功能函数在stm32f10x_it.c执行文件的滴答定时器中断服务函数里循环执行。
@@ -98,68 +97,12 @@ int main(void)
 			SoftTimer[2] = 20;
 			Read_Distane();
 			ShowHomePage();
-
-			if (turning 
-					&& g_s32MotorPulseDiffCum <= g_iCarMotorPulseDiffCumSet + 30
-					&& g_s32MotorPulseDiffCum >= g_iCarMotorPulseDiffCumSet - 30) {
-						turning = 0;
+	
+			if (Distance <= 30) {
+				LED1Off;
 			} else {
-				if (direction == 0) {
-					if (Distance >= 30) { 								// 向前无障碍物, 直行
-						g_iCarSpeedSet = 50;
-					} else {															// 否则转弯
-						if (!rightVisited) {								// 先向右转
-							rightVisited = 1;
-							Turn(90);
-							direction = 1;
-						} else {
-							Turn(-90);
-							direction = -1;
-						}
-					}
-				} else if (direction == 1) { // 向右探索
-					if (pitching) {
-						pitching = 0;
-						if (Distance >= 30) { // 检查到了空,前进
-							direction = 0;
-							rightVisited = 0;
-						} else {							// 否则回到右边继续前进
-							Turn(90);
-						}
-					} else if (g_s32MotorPulseSumCum >= DistanceToMotorPulse(40)) { // 每前进40cm, 回到正面检查一次
-						pitching = 1;
-						Turn(0);
-					} else {
-						if (Distance >= 30) {		// 向右前进
-							g_iCarSpeedSet = 50;
-						} else {								// 没找到出口, 转向左边
-							Turn(-90);
-							direction = -1;
-						}
-					}
-				} else {
-					if (pitching) {
-						pitching = 0;
-						if (Distance >= 30) {
-							direction = 0;
-							rightVisited = 0;
-						} else {
-							Turn(-90);
-						}
-					} else if (g_s32MotorPulseSumCum >= DistanceToMotorPulse(40)) { // 每前进40cm, 回到正面检查一次
-						// TODO: 不需要检查检查过的地方
-						pitching = 1;
-						Turn(0);
-					} else {
-						if (Distance >= 30) {
-							g_iCarSpeedSet = 50;
-						} else {
-							// TODO: ?????
-						}
-					}
-				}
+				LED1On;
 			}
-
 		}
 	}
 }
