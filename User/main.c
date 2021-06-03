@@ -59,6 +59,7 @@ void Turn(int angle) {
 	g_iCarSpeedSet = 0;
 	turning = 1;
 	g_iCarMotorPulseDiffCumSet = AngleToMotorPulse(angle);
+	g_s32MotorPulseSumCum = 0;
 }
 
 
