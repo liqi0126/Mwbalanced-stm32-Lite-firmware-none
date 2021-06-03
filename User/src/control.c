@@ -65,6 +65,7 @@ float g_fCarPosition;
 
 int g_iCarLeftMotorPulseSet;
 int g_iCarRightMotorPulseSet;
+int g_iCarMotorPulseDiffCumSet;
 
 /*-----角度环和速度环PID控制参数-----*/
 PID_t g_tCarAnglePID={17.0, 0, 23.0};	//*5 /10
@@ -435,24 +436,9 @@ void YawControl(void)
 
 void MotorDiffControl(void)
 {
-	g_fMotorPulseDiffControlOut = (CAR_MOTOR_PLUSE_DIFF - g_s32MotorPulseDiff) * g_tPulseDiffPID.P + \
-	(CAR_MOTOR_PLUSE_CUM_DIFF - g_s32MotorPulseDiffCum) * g_tPulseDiffPID.I;
+	g_fMotorPulseDiffControlOut = (CAR_MOTOR_PLUSE_DIFF_SET - g_s32MotorPulseDiff) * g_tPulseDiffPID.P + \
+	(CAR_MOTOR_PLUSE_CUM_DIFF_SET - g_s32MotorPulseDiffCum) * g_tPulseDiffPID.I;
 }
-
-void DirectionControlEnable(void)
-{
-	g_tPulseDiffPID.P = 5;
-	g_tPulseDiffPID.I = 0.5;
-	g_s32LeftMotorPulseCum = 0;
-	g_s32RightMotorPulseCum = 0;
-}
-
-void DirectionControlDisable(void)
-{
-	g_tPulseDiffPID.P = 0;
-	g_tPulseDiffPID.I = 0;
-}
-
 
 void MotorNumControl(void)
 {

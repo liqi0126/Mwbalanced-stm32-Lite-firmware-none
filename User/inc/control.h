@@ -20,8 +20,8 @@ typedef struct _PID_t{
 /******速度控制相关宏定义******/
 #define CAR_POSITION_SET      0
 #define CAR_YAW_SET 					0
-#define CAR_MOTOR_PLUSE_DIFF  0
-#define CAR_MOTOR_PLUSE_CUM_DIFF 0
+#define CAR_MOTOR_PLUSE_DIFF_SET  0
+#define CAR_MOTOR_PLUSE_CUM_DIFF_SET g_iCarMotorPulseDiffCumSet
 #define CAR_SPEED_SET         g_iCarSpeedSet
 #define CAR_LEFT_MOTOR_PULSE_SET     g_iCarLeftMotorPulseSet
 #define CAR_RIGHT_MOTOR_PULSE_SET    g_iCarRightMotorPulseSet
@@ -72,6 +72,9 @@ extern short g_s16RightMotorPulse;
 extern int g_s32LeftMotorPulseCum;
 extern int g_s32RightMotorPulseCum;
 extern float g_iCarSpeedSet;
+extern int g_iCarMotorPulseDiffCumSet;
+extern int g_s32MotorPulseDiffCum;
+
 
 void CarUpstandInit(void);
 void MotorManage(void);

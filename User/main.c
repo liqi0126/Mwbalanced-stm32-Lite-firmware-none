@@ -95,32 +95,30 @@ int main(void)
 				stage = 4;
 			}
 		} else if (stage == 4) { // 左转90-180度
-			if (g_s32RightMotorPulseCum - g_s32LeftMotorPulseCum >= 2500) {
+			CAR_MOTOR_PLUSE_CUM_DIFF_SET = -2500;
+			if (g_s32MotorPulseDiffCum <= -2500) {
 				g_iCarSpeedSet = 0;
 				g_fBluetoothDirection = 0;
 				SoftTimer[3] = 1500;
-				DirectionControlEnable();
 				stage = 5;
 			} else {
 				g_iCarSpeedSet = 50;
 				g_fBluetoothDirection = -150;
-				DirectionControlDisable();
 			}
 		} else if (stage == 5) { // 暂停1-3s
 			if (SoftTimer[3] == 0) {
 				stage = 6;
 			}
 		} else if (stage == 6) { // 右转90-180度
-			if (g_s32RightMotorPulseCum - g_s32LeftMotorPulseCum <= -2500) {
+			CAR_MOTOR_PLUSE_CUM_DIFF_SET = 0;
+			if (g_s32MotorPulseDiffCum >= 0) {
 				g_iCarSpeedSet = 0;
 				g_fBluetoothDirection = 0;
 				SoftTimer[3] = 1500;
-				DirectionControlEnable();
 				stage = 7;
 			} else {
 				g_iCarSpeedSet = 50;
 				g_fBluetoothDirection = 150;
-				DirectionControlDisable();
 			}
 		} else {								 // 停止
 			if (SoftTimer[3] == 0) {
