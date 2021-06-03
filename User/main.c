@@ -58,7 +58,6 @@ void Turn(int angle) {
 	g_iCarSpeedSet = 0;
 	turning = 1;
 	g_iCarMotorPulseDiffCumSet = AngleToMotorPulse(angle);
-	g_s32MotorPulseSumCum = 0;
 }
 
 
@@ -85,27 +84,30 @@ int main(void)
 	{
 		SecTask();			//秒级任务
 		
+		/*
 		if(SoftTimer[1] == 0)
 		{// 每隔20ms 执行一次
 			SoftTimer[1] = 20;
 			ResponseIMU();			
-			DebugService();			
-			Parse(Uart3Buffer);
-		}			
+			 DebugService();			
+			 Parse(Uart3Buffer);
+		}	
+		*/
   	
 		if(SoftTimer[2] == 0)
 		{
-			SoftTimer[2] = 20;
+			SoftTimer[2] = 10;
 			Read_Distane();
-			ShowHomePage();
+			// ShowHomePage();
 
-			if (turning 
-					&& g_s32MotorPulseDiffCum <= g_iCarMotorPulseDiffCumSet + 30
-					&& g_s32MotorPulseDiffCum >= g_iCarMotorPulseDiffCumSet - 30) {
+			if (turning) {
+				if (g_s32MotorPulseDiffCum <= g_iCarMotorPulseDiffCumSet + 30 && g_s32MotorPulseDiffCum >= g_iCarMotorPulseDiffCumSet - 30) {
 						turning = 0;
+						g_s32MotorPulseSumCum = 0;
+				}
 			} else {
 				if (direction == 0) {
-					if (Distance >= 0 && Distance <= 30) {  // 否则转弯
+					if (Distance > 0 && Distance <= 30) {  // 否则转弯
 						if (!rightVisited) {								// 先向右转
 							rightVisited = 1;
 							Turn(90);
@@ -114,47 +116,48 @@ int main(void)
 							Turn(-90);
 							direction = -1;
 						}						
-					} else {															
+					} else {
 						g_iCarSpeedSet = 50;   // 向前无障碍物, 直行
 					}
 				} else if (direction == 1) { // 向右探索
 					if (pitching) {
 						pitching = 0;
-						if (Distance >= 30) { // 检查到了空,前进
+						if (Distance > 0 && Distance < 30) { // 否则回到右边继续前进
+							Turn(90);
+						} else { // 检查到了空,前进
 							direction = 0;
 							rightVisited = 0;
-						} else {							// 否则回到右边继续前进
-							Turn(90);
 						}
 					} else if (g_s32MotorPulseSumCum >= DistanceToMotorPulse(40)) { // 每前进40cm, 回到正面检查一次
 						pitching = 1;
 						Turn(0);
 					} else {
-						if (Distance >= 30) {		// 向右前进
-							g_iCarSpeedSet = 50;
-						} else {								// 没找到出口, 转向左边
+						if (Distance > 0 && Distance < 30) { // 没找到出口, 转向左边
 							Turn(-90);
 							direction = -1;
+						}
+						else {		// 向右前进
+							g_iCarSpeedSet = 50;
 						}
 					}
 				} else {
 					if (pitching) {
 						pitching = 0;
-						if (Distance >= 30) {
+						if (Distance > 0 && Distance < 30) {
+							Turn(-90);
+						} else {
 							direction = 0;
 							rightVisited = 0;
-						} else {
-							Turn(-90);
 						}
 					} else if (g_s32MotorPulseSumCum >= DistanceToMotorPulse(40)) { // 每前进40cm, 回到正面检查一次
 						// TODO: 不需要检查检查过的地方
 						pitching = 1;
 						Turn(0);
 					} else {
-						if (Distance >= 30) {
+						if (Distance > 0 && Distance < 30) {
+						}
+						else {		// 向左前进
 							g_iCarSpeedSet = 50;
-						} else {
-							// TODO: ?????
 						}
 					}
 				}
