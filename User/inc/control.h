@@ -74,7 +74,8 @@ extern int g_s32RightMotorPulseCum;
 extern float g_iCarSpeedSet;
 extern int g_iCarMotorPulseDiffCumSet;
 extern int g_s32MotorPulseDiffCum;
-
+extern int g_s32MotorPulseDiffCumTotal;
+extern int g_s32MotorPulseSumCum;
 
 void CarUpstandInit(void);
 void MotorManage(void);
@@ -93,8 +94,5 @@ void Steer(float direct, float speed);
 void UltraControl(int mode);
 void MotorDiffControl(void);
 void TailingControl(void);
-void MotorNumControl(void);
-void DirectionControlEnable(void);
-void DirectionControlDisable(void);
 
 #endif

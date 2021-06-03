@@ -25,9 +25,6 @@
 #include "infrare.h"
 #include "manage.h"
 
-
-int stage = 0;
-
 //秒级任务
 void SecTask()
 {
@@ -41,6 +38,27 @@ void SecTask()
 	if(StatusFlag)ResponseStatus();
 	
 	LEDToggle();
+}
+
+// direction: 
+// 0 直行
+// -1 左转
+// 1 右转
+int direction = 0;
+int turning = 0;
+int turningMotorDiff = 0;
+int rightVisited = 0;
+int deg90 = 2000;
+
+int pitching = 0;
+
+#define AngleToMotorPulse(x)   (x)
+#define DistanceToMotorPulse(x) (x)
+
+void Turn(int angle) {
+	g_iCarSpeedSet = 0;
+	turning = 1;
+	g_iCarMotorPulseDiffCumSet = AngleToMotorPulse(angle);
 }
 
 
@@ -63,71 +81,68 @@ int main(void)
 	
 	ShowHomePageInit();
  
+	
+	if (turning 
+		&& g_s32MotorPulseDiffCum <= g_iCarMotorPulseDiffCumSet + 30
+		&& g_s32MotorPulseDiffCum >= g_iCarMotorPulseDiffCumSet - 30) {
+		turning = 0;
+	} else {
+		if (direction == 0) { 
+			if (Distance >= 30) { 								// 向前无障碍物, 直行
+				g_iCarSpeedSet = 50;
+			} else {															// 否则转弯
+				if (!rightVisited) {								// 先向右转
+					rightVisited = 1;
+					Turn(90);
+				} else {
+					Turn(-90);
+				}
+			}
+		} else if (direction == 1) { // 向右探索
+			if (pitching) {
+				pitching = 0;
+				if (Distance >= 30) { // 检查到了空,前进
+					direction = 0;
+				} else {							// 否则回到右边继续前进
+					Turn(90);
+				}
+			} else if (g_s32MotorPulseSumCum >= DistanceToMotorPulse(40)) { // 每前进40cm, 回到正面检查一次
+				pitching = 1;
+				Turn(0);
+			} else {
+				if (Distance >= 30) {		// 向右前进
+					g_iCarSpeedSet = 50;
+				} else {								// 没找到出口, 转向左边
+					Turn(-90);
+					direction = -1;
+				}
+			}
+		} else {
+			if (pitching) {
+				pitching = 0;
+				if (Distance >= 30) {
+					direction = 0;
+				} else {
+					Turn(-90);
+				}
+			} else if (g_s32MotorPulseSumCum >= DistanceToMotorPulse(40)) { // 每前进40cm, 回到正面检查一次
+				// TODO: 不需要检查检查过的地方
+				pitching = 1;
+				Turn(0);
+			} else {
+				if (Distance >= 30) {
+					g_iCarSpeedSet = 50;
+				} else {
+					// TODO: ?????
+				}
+			}
+		}
+	}
+	
 	while (1)
 	{
 		
 		SecTask();			//秒级任务
-
-		// 自动化完成4个任务
-		if (stage == 0) { // 前进1m
-			// TODO: 加个按钮判断开始
-			if (g_s32LeftMotorPulseCum + g_s32RightMotorPulseCum > 20000) {
-				g_iCarSpeedSet = 0;
-				SoftTimer[3] = 1500;
-				stage = 1;
-			} else {
-				g_iCarSpeedSet = 50;
-			}
-		} else if (stage == 1) { // 暂停1-3s
-			if (SoftTimer[3] == 0) {
-				stage = 2;
-			}
-		} else if (stage == 2) { // 后退1m
-			if (g_s32LeftMotorPulseCum + g_s32RightMotorPulseCum <= 0) {
-				g_iCarSpeedSet = 0;
-				SoftTimer[3] = 1500;
-				stage = 3;
-			} else {
-				g_iCarSpeedSet = -50;
-			}
-		} else if (stage == 3) { // 暂停1-3s
-			if (SoftTimer[3] == 0) {
-				stage = 4;
-			}
-		} else if (stage == 4) { // 左转90-180度
-			CAR_MOTOR_PLUSE_CUM_DIFF_SET = -2500;
-			if (g_s32MotorPulseDiffCum <= -2500) {
-				g_iCarSpeedSet = 0;
-				g_fBluetoothDirection = 0;
-				SoftTimer[3] = 1500;
-				stage = 5;
-			} else {
-				g_iCarSpeedSet = 50;
-				g_fBluetoothDirection = -150;
-			}
-		} else if (stage == 5) { // 暂停1-3s
-			if (SoftTimer[3] == 0) {
-				stage = 6;
-			}
-		} else if (stage == 6) { // 右转90-180度
-			CAR_MOTOR_PLUSE_CUM_DIFF_SET = 0;
-			if (g_s32MotorPulseDiffCum >= 0) {
-				g_iCarSpeedSet = 0;
-				g_fBluetoothDirection = 0;
-				SoftTimer[3] = 1500;
-				stage = 7;
-			} else {
-				g_iCarSpeedSet = 50;
-				g_fBluetoothDirection = 150;
-			}
-		} else {								 // 停止
-			if (SoftTimer[3] == 0) {
-				g_iCarSpeedSet = 0;
-				g_fBluetoothDirection = 0;
-			}
-		}
-		
-		
 		
 		if(SoftTimer[1] == 0)
 		{// 每隔20ms 执行一次
