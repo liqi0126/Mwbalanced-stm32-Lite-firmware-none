@@ -24,7 +24,8 @@ unsigned char XOR_Check(char * str, unsigned char  len,unsigned char checksum);
 unsigned char Sum_Get(char *dat,char len);
 unsigned short CRC16Calculate(unsigned char *buff, unsigned char len);
 
-
+#define AngleToMotorPulse(x)   ((int)(45 * x / 2))
+#define DistanceToMotorPulse(x) ((int)(512 * x / 7))
 
 
 #endif

@@ -39,7 +39,7 @@ float g_fSpeedControlOutNew;
 float g_fAngleControlOut;
 float g_fLeftMotorOut;
 float g_fRightMotorOut;
-float g_fMotorPulseDiffControlOut; // TODO: PID ?
+float g_fMotorPulseDiffControlOut;
 
 /******速度控制参数******/
 
@@ -52,11 +52,8 @@ int  g_s32LeftMotorPulseSigma;
 int  g_s32RightMotorPulseSigma;
 int  g_s32LeftMotorPulseCum;
 int  g_s32RightMotorPulseCum;
-int  g_s32LeftMotorPulseCumTotal;
-int  g_s32RightMotorPulseCumTotal;
 int	 g_s32MotorPulseDiff;
 int  g_s32MotorPulseDiffCum;
-int  g_s32MotorPulseDiffCumTotal;
 int g_s32MotorPulseSumCum;
 
 float g_fCarSpeed;
@@ -69,9 +66,7 @@ int g_iCarMotorPulseDiffCumSet;
 /*-----角度环和速度环PID控制参数-----*/
 PID_t g_tCarAnglePID={17.0, 0, 23.0};	//*5 /10
 PID_t g_tCarSpeedPID={15.25, 1.08, 0};	//i/10
-PID_t g_tYawAnglePID={17.0, 0, 23.0};
-PID_t g_tPulseDiffPID={5., 0.5, 0};
-PID_t g_tPulseCumPID={5., 0, 0.};
+PID_t g_tPulseDiffPID={5., 0.5, 0}; // TODO: PID ?
 /******蓝牙控制参数******/
 float g_fBluetoothSpeed;
 float g_fBluetoothDirection;
@@ -127,8 +122,8 @@ void CarUpstandInit(void)
 	// 脉冲数控制方向和位置
 	g_s32LeftMotorPulseCum = 0;
 	g_s32RightMotorPulseCum = 0;
-	g_s32LeftMotorPulseCumTotal = 0;
-	g_s32RightMotorPulseCumTotal = 0;
+	g_s32MotorPulseDiffCum = 0;
+	g_s32MotorPulseSumCum = 0;
 }
 
 
@@ -351,12 +346,8 @@ void GetMotorPulse(void)  //采集电机速度脉冲
 
 	g_s32LeftMotorPulseCum += g_s16LeftMotorPulse;
 	g_s32RightMotorPulseCum += g_s16RightMotorPulse;
-	g_s32MotorPulseDiffCum = g_s32LeftMotorPulseCum - g_s32RightMotorPulseCum;
+	g_s32MotorPulseDiffCum += g_s16LeftMotorPulse - g_s16RightMotorPulse;
 	g_s32MotorPulseSumCum += g_s16LeftMotorPulse + g_s16RightMotorPulse;
-	
-	g_s32LeftMotorPulseCumTotal += g_s16LeftMotorPulse;
-	g_s32RightMotorPulseCumTotal += g_s16RightMotorPulse;
-	g_s32MotorPulseDiffCumTotal = g_s32LeftMotorPulseCumTotal - g_s32RightMotorPulseCumTotal;
 	
   g_s32LeftMotorPulseSigma +=  g_s16LeftMotorPulse;
   g_s32RightMotorPulseSigma += g_s16RightMotorPulse; 
@@ -611,28 +602,30 @@ void TailingControl(void)
 /***************************************************************
 ** NEW
 ***************************************************************/
-
-void MotorDiffControl(void)
-{
+void MotorDiffControl(void) {
 	g_fMotorPulseDiffControlOut = (CAR_MOTOR_PLUSE_DIFF_SET - g_s32MotorPulseDiff) * g_tPulseDiffPID.P + \
 	(CAR_MOTOR_PLUSE_CUM_DIFF_SET - g_s32MotorPulseDiffCum) * g_tPulseDiffPID.I;
 }
 
-void ResetMotorPulse(void) {
-	g_s32LeftMotorPulseCum = 0;
-	g_s32RightMotorPulseCum = 0;
+void DisableDirectionControl(void) {
+	g_tPulseDiffPID.P = 0;
+	g_tPulseDiffPID.I = 0;
+	g_tPulseDiffPID.D = 0;
 }
 
-void SetDirection(int pulseDiff) {
-	g_iCarSpeedSet = 0;
-	g_iCarMotorPulseDiffCumSet = pulseDiff;
-	/*
-	if (g_iCarMotorPulseDiffCumSet < 0) {
-		g_fBluetoothSpeed = -20;
-	} else if (g_iCarMotorPulseDiffCumSet > 0) {
-		g_fBluetoothSpeed = 20;
+
+void EnableDirectionControl(void) {
+	g_tPulseDiffPID.P = 5;
+	g_tPulseDiffPID.I = 0.5;
+	g_tPulseDiffPID.D = 0;
+	g_s32MotorPulseDiffCum = 0;
+}
+
+
+void MoveForward(int distance) {
+	if (distance >= 100) {
+		g_iCarSpeedSet = 85;   // 向前无障碍物, 直行
 	} else {
-		g_fBluetoothSpeed = 0;
+		g_iCarSpeedSet = 60;
 	}
-	*/
 }

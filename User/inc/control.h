@@ -95,4 +95,7 @@ void UltraControl(int mode);
 void MotorDiffControl(void);
 void TailingControl(void);
 
+void DisableDirectionControl(void);
+void EnableDirectionControl(void);
+void MoveForward(int distance);
 #endif

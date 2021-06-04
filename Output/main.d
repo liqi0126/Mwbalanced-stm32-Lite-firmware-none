@@ -26,3 +26,5 @@
 .\output\main.o: .\User\inc\ultrasonic.h
 .\output\main.o: .\User\inc\infrare.h
 .\output\main.o: .\User\inc\manage.h
+.\output\main.o: .\User\inc\avoidance.h
+.\output\main.o: .\User\inc\trace.h

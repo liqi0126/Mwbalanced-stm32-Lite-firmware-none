@@ -568,6 +568,16 @@
               <FileType>1</FileType>
               <FilePath>.\User\src\manage.c</FilePath>
             </File>
+            <File>
+              <FileName>avoidance.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\avoidance.c</FilePath>
+            </File>
+            <File>
+              <FileName>trace.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\trace.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
