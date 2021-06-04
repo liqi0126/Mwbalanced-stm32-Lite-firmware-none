@@ -111,9 +111,29 @@ int main(void)
 		if(SoftTimer[2] == 0)
 		{
 			SoftTimer[2] = 10;
-			Read_Distane();
-			// ShowHomePage();
 
+			char result;
+			float direct = 0;
+			float speed = 0;
+
+			result = InfraredDetect();
+			
+			if(result & infrared_channel_Lc)
+				direct = -10;
+			else if(result & infrared_channel_Lb)
+				direct = -6;
+			else if(result & infrared_channel_La)
+				direct = -4;
+			else if(result & infrared_channel_Rc)
+				direct = 10;
+			else if(result & infrared_channel_Rb)
+				direct = 6;
+			else if(result & infrared_channel_Ra)
+				direct = 4;
+			else
+				direct = 0.0;
+
+			speed = 3;
 		}
 	}
 }
