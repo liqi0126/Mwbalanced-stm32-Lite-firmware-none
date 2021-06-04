@@ -56,7 +56,6 @@ int pitching = 0;
 #define DistanceToMotorPulse(x) ((int)(512 * x / 7))
 
 void Turn(int angle) {
-	g_iCarSpeedSet = 0;
 	turning = 1;
 	g_iCarMotorPulseDiffCumSet = AngleToMotorPulse(angle);
 	if (g_iCarMotorPulseDiffCumSet < g_s32MotorPulseDiffCum) {
@@ -112,28 +111,45 @@ int main(void)
 		{
 			SoftTimer[2] = 10;
 
-			char result;
-			float direct = 0;
-			float speed = 0;
+			if (turning) {
+				if (g_s32MotorPulseDiffCum <= g_iCarMotorPulseDiffCumSet + 30 && g_s32MotorPulseDiffCum >= g_iCarMotorPulseDiffCumSet - 30) {
+						turning = 0;
+				}
+			} else {
+				char result;
+				float direct = 0;
+				float speed = 0;
 
-			result = InfraredDetect();
-			
-			if(result & infrared_channel_Lc)
-				direct = -10;
-			else if(result & infrared_channel_Lb)
-				direct = -6;
-			else if(result & infrared_channel_La)
-				direct = -4;
-			else if(result & infrared_channel_Rc)
-				direct = 10;
-			else if(result & infrared_channel_Rb)
-				direct = 6;
-			else if(result & infrared_channel_Ra)
-				direct = 4;
-			else
-				direct = 0.0;
-
-			speed = 3;
+				result = InfraredDetect();
+				
+				if(result & infrared_channel_Lc) {
+					g_iCarSpeedSet = 0;
+					Turn(10);
+				}
+				else if(result & infrared_channel_Lb) {
+					g_iCarSpeedSet = 0;
+					Turn(10);
+				}
+				else if(result & infrared_channel_La) {
+					g_iCarSpeedSet = 0;
+					Turn(10);
+				}
+				else if(result & infrared_channel_Rc) {
+					g_iCarSpeedSet = 0;
+					Turn(10);
+				}
+				else if(result & infrared_channel_Rb) {
+					g_iCarSpeedSet = 0;
+					Turn(10);
+				}
+				else if(result & infrared_channel_Ra) {
+					g_iCarSpeedSet = 0;
+					Turn(10);
+				}
+				else {
+					g_iCarSpeedSet = 20;
+				}
+			}
 		}
 	}
 }
