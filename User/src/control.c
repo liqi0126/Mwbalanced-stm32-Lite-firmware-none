@@ -351,7 +351,7 @@ void GetMotorPulse(void)  //采集电机速度脉冲
 
 	g_s32LeftMotorPulseCum += g_s16LeftMotorPulse;
 	g_s32RightMotorPulseCum += g_s16RightMotorPulse;
-	g_s32MotorPulseDiffCum = g_s32LeftMotorPulseCum - g_s32RightMotorPulseCum;
+	g_s32MotorPulseDiffCum += g_s16LeftMotorPulse - g_s16RightMotorPulse;
 	g_s32MotorPulseSumCum = g_s32LeftMotorPulseCum + g_s32RightMotorPulseCum;
 	
 	g_s32LeftMotorPulseCumTotal += g_s16LeftMotorPulse;

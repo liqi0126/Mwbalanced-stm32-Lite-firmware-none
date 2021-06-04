@@ -55,11 +55,9 @@ int pitching = 0;
 void Turn(int angle) {
 	g_iCarSpeedSet = 0;
 	turning = 1;
+	g_s32MotorPulseDiffCum = 0;
 	g_iCarMotorPulseDiffCumSet = AngleToMotorPulse(angle);
-	g_s32MotorPulseSumCum = 0;
 }
-
-int distanceLE30 = 0;
 
 /*
 	主函数入门，另外，控制功能函数在stm32f10x_it.c执行文件的滴答定时器中断服务函数里循环执行。
@@ -95,14 +93,8 @@ int main(void)
 		if(SoftTimer[2] == 0)
 		{
 			SoftTimer[2] = 20;
-			Read_Distane();
 			ShowHomePage();
 	
-			if (Distance <= 30) {
-				LED1Off;
-			} else {
-				LED1On;
-			}
 		}
 	}
 }
