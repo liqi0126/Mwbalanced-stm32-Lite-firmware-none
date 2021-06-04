@@ -81,7 +81,7 @@ void Avoidance(void) {
 					pitchingRightChecking = 1;
 					Turn(45);
 				}
-			} else if (g_s32MotorPulseSumCum >= DistanceToMotorPulse(60)) { // 每前进50cm, 回到正面检查一次
+			} else if (g_s32MotorPulseSumCum >= 2 * DistanceToMotorPulse(30)) { // 每前进50cm, 回到正面检查一次
 				pitching = 1;
 				Turn(0);
 			} else {
@@ -122,7 +122,7 @@ void Avoidance(void) {
 					pitchingRightChecking = 1;
 					Turn(45);
 				}
-			} else if (g_s32MotorPulseSumCum >= DistanceToMotorPulse(60)) { // 每前进40cm, 回到正面检查一次
+			} else if (g_s32MotorPulseSumCum >= 2 * DistanceToMotorPulse(30)) { // 每前进40cm, 回到正面检查一次
 				// TODO: 不需要检查检查过的地方
 				pitching = 1;
 				Turn(0);
