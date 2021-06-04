@@ -82,11 +82,12 @@ int main(void)
 
 		// Ours
 		if(SoftTimer[3] == 0) {
-			SoftTimer[3] = 20;
 			if (!g_iTraceEnd) {	// œ»—∞º£
+				SoftTimer[3] = 2;
 				DisableDirectionControl();
 				Trace();
 			} else {	// ‘Ÿ±‹’œ
+				SoftTimer[3] = 20;
 				Read_Distane();
 				Avoidance();
 			}

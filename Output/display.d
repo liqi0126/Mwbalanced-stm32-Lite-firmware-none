@@ -1,5 +1,5 @@
 .\output\display.o: User\src\display.c
-.\output\display.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\display.o: E:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\display.o: .\User\inc\oled.h
 .\output\display.o: .\User\inc\bmp.h
 .\output\display.o: .\User\inc\control.h
@@ -11,7 +11,7 @@
 .\output\display.o: .\FWlib\inc\stm32f10x_gpio.h
 .\output\display.o: .\CMSIS\stm32f10x.h
 .\output\display.o: .\CMSIS\core_cm3.h
-.\output\display.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\display.o: E:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\display.o: .\CMSIS\system_stm32f10x.h
 .\output\display.o: .\User\stm32f10x_conf.h
 .\output\display.o: .\FWlib\inc\stm32f10x_dma.h
