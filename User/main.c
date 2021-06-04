@@ -116,39 +116,58 @@ int main(void)
 						turning = 0;
 				}
 			} else {
+				
 				char result;
 				float direct = 0;
 				float speed = 0;
-
-				result = InfraredDetect();
 				
-				if(result & infrared_channel_Lc) {
+				result = InfraredDetect();
+				int La = result & infrared_channel_La;
+				int Lc = result & infrared_channel_Lc;
+				int Ra = result & infrared_channel_Ra;
+				int Rc = result & infrared_channel_Rc;
+				
+				if(La && Ra)
+				{
 					g_iCarSpeedSet = 0;
-					Turn(10);
+					g_fBluetoothDirection = 0;
 				}
-				else if(result & infrared_channel_Lb) {
+				else if(Lc && La)
+				{
 					g_iCarSpeedSet = 0;
-					Turn(10);
+					g_fBluetoothDirection = 800;
 				}
-				else if(result & infrared_channel_La) {
+				else if(Rc && Ra)
+				{
 					g_iCarSpeedSet = 0;
-					Turn(10);
+					g_fBluetoothDirection = -800;
 				}
-				else if(result & infrared_channel_Rc) {
-					g_iCarSpeedSet = 0;
-					Turn(10);
+				else if(Lc)
+				{
+					g_iCarSpeedSet = 10;
+					g_fBluetoothDirection = 400;
 				}
-				else if(result & infrared_channel_Rb) {
-					g_iCarSpeedSet = 0;
-					Turn(10);
+				else if(Rc)
+				{
+					g_iCarSpeedSet = 10;
+					g_fBluetoothDirection = -400;
 				}
-				else if(result & infrared_channel_Ra) {
-					g_iCarSpeedSet = 0;
-					Turn(10);
+				else if(La)
+				{
+					g_fBluetoothDirection = 120;
+					g_iCarSpeedSet = 15;
 				}
-				else {
+				else if(Ra)
+				{
+					g_fBluetoothDirection = -120;
+					g_iCarSpeedSet = 15;
+				}
+				else
+				{
+					g_fBluetoothDirection = 0;
 					g_iCarSpeedSet = 20;
 				}
+				
 			}
 		}
 	}
