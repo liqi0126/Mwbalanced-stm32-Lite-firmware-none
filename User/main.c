@@ -49,6 +49,7 @@ int turning = 0;
 int turningMotorDiff = 0;
 int rightVisited = 0;
 
+int pitched = 0;
 int pitching = 0;
 
 #define AngleToMotorPulse(x)   ((int)(45 * x / 2))
@@ -58,6 +59,19 @@ void Turn(int angle) {
 	g_iCarSpeedSet = 0;
 	turning = 1;
 	g_iCarMotorPulseDiffCumSet = AngleToMotorPulse(angle);
+	if (g_iCarMotorPulseDiffCumSet < g_s32MotorPulseDiffCum) {
+		g_fBluetoothDirection = -50;
+	} else {
+		g_fBluetoothDirection = 50;
+	}
+}
+
+void MoveForward(int distance) {
+	if (distance >= 100) {
+		g_iCarSpeedSet = 85;   // 向前无障碍物, 直行
+	} else {
+		g_iCarSpeedSet = 70;
+	}
 }
 
 
@@ -101,9 +115,10 @@ int main(void)
 			// ShowHomePage();
 
 			if (turning) {
-				if (g_s32MotorPulseDiffCum <= g_iCarMotorPulseDiffCumSet + 30 && g_s32MotorPulseDiffCum >= g_iCarMotorPulseDiffCumSet - 30) {
-						turning = 0;
-						g_s32MotorPulseSumCum = 0;
+				if (g_s32MotorPulseDiffCum <= g_iCarMotorPulseDiffCumSet + 100 && g_s32MotorPulseDiffCum >= g_iCarMotorPulseDiffCumSet - 100) {
+					turning = 0;
+					g_fBluetoothDirection = 0;
+					g_s32MotorPulseSumCum = 0;
 				}
 			} else {
 				if (direction == 0) {
@@ -117,7 +132,7 @@ int main(void)
 							direction = -1;
 						}						
 					} else {
-						g_iCarSpeedSet = 50;   // 向前无障碍物, 直行
+						MoveForward(Distance);
 					}
 				} else if (direction == 1) { // 向右探索
 					if (pitching) {
@@ -133,11 +148,11 @@ int main(void)
 						Turn(0);
 					} else {
 						if (Distance > 0 && Distance < 30) { // 没找到出口, 转向左边
-							Turn(-90);
-							direction = -1;
+							Turn(0);
+							direction = 0;
 						}
 						else {		// 向右前进
-							g_iCarSpeedSet = 50;
+							MoveForward(Distance);
 						}
 					}
 				} else {
@@ -155,9 +170,12 @@ int main(void)
 						Turn(0);
 					} else {
 						if (Distance > 0 && Distance < 30) {
+							Turn(0);
+							direction = 0;
+							rightVisited = 0;
 						}
 						else {		// 向左前进
-							g_iCarSpeedSet = 50;
+							MoveForward(Distance);
 						}
 					}
 				}
