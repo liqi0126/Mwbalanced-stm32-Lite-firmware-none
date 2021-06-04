@@ -51,6 +51,10 @@ int rightVisited = 0;
 
 int pitched = 0;
 int pitching = 0;
+int pitchingLeftChecked = 0;
+int pitchingRightChecked = 0;
+int pitchingLeftChecking = 0;
+int pitchingRightChecking = 0;
 
 #define AngleToMotorPulse(x)   ((int)(45 * x / 2))
 #define DistanceToMotorPulse(x) ((int)(512 * x / 7))
@@ -70,7 +74,7 @@ void MoveForward(int distance) {
 	if (distance >= 100) {
 		g_iCarSpeedSet = 85;   // 向前无障碍物, 直行
 	} else {
-		g_iCarSpeedSet = 70;
+		g_iCarSpeedSet = 60;
 	}
 }
 
@@ -136,14 +140,34 @@ int main(void)
 					}
 				} else if (direction == 1) { // 向右探索
 					if (pitching) {
-						pitching = 0;
-						if (Distance > 0 && Distance < 30) { // 否则回到右边继续前进
+						if (pitchingRightChecking) {
+							if (Distance > 30) {
+								pitchingRightChecked = 1;
+								pitchingLeftChecking = 1;
+								Turn(-30);
+							} else {
+								Turn(90);
+								pitching = 0;
+							}
+						} else if (pitchingRightChecking) {
+							if (Distance > 30) {
+								pitchingLeftChecked = 1;
+								Turn(0);
+								direction = 0;
+								rightVisited = 0;
+								pitching = 0;
+							} else {
+								Turn(90);
+								pitching = 0;
+							}
+						} else if (Distance > 0 && Distance < 30) { // 否则回到右边继续前进
+							pitching = 0;
 							Turn(90);
-						} else { // 检查到了空,前进
-							direction = 0;
-							rightVisited = 0;
+						} else {
+							pitchingRightChecking = 1;
+							Turn(30);
 						}
-					} else if (g_s32MotorPulseSumCum >= DistanceToMotorPulse(40)) { // 每前进40cm, 回到正面检查一次
+					} else if (g_s32MotorPulseSumCum >= DistanceToMotorPulse(50)) { // 每前进50cm, 回到正面检查一次
 						pitching = 1;
 						Turn(0);
 					} else {
@@ -164,7 +188,7 @@ int main(void)
 							direction = 0;
 							rightVisited = 0;
 						}
-					} else if (g_s32MotorPulseSumCum >= DistanceToMotorPulse(40)) { // 每前进40cm, 回到正面检查一次
+					} else if (g_s32MotorPulseSumCum >= DistanceToMotorPulse(50)) { // 每前进40cm, 回到正面检查一次
 						// TODO: 不需要检查检查过的地方
 						pitching = 1;
 						Turn(0);
