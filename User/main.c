@@ -62,6 +62,7 @@ int main(void)
 	
 	ShowHomePageInit();
 	
+	EnableDirectionControl();
 	while (1)
 	{
 		SecTask();			//秒级任务
@@ -82,11 +83,12 @@ int main(void)
 
 		// Ours
 		if(SoftTimer[3] == 0) {
-			SoftTimer[3] = 20;
 			if (!g_iTraceEnd) {	// 先寻迹
+				SoftTimer[3] = 2;
 				DisableDirectionControl();
 				Trace();
 			} else {	// 再避障
+				SoftTimer[3] = 2;
 				Read_Distane();
 				Avoidance();
 			}

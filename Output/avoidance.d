@@ -3,3 +3,4 @@
 .\output\avoidance.o: .\User\inc\common.h
 .\output\avoidance.o: .\User\inc\control.h
 .\output\avoidance.o: .\User\inc\ultrasonic.h
+.\output\avoidance.o: .\User\inc\trace.h

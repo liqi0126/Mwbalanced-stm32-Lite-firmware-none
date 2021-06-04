@@ -278,7 +278,7 @@ I (.\FWlib\inc\stm32f10x_rcc.h)(0x587591E9)
 I (.\FWlib\inc\stm32f10x_tim.h)(0x587591E9)
 I (.\FWlib\inc\stm32f10x_usart.h)(0x587591E9)
 I (.\FWlib\inc\misc.h)(0x587591E9)
-F (.\User\src\infrare.c)(0x60B79129)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I .\CMSIS -I .\FWlib\inc -I .\FWlib\src -I .\User -I .\User\inc-I.\RTE\_BasicBalance-ID:\Arm_packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Arm_packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="534" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\output\infrare.o --omf_browse .\output\infrare.crf --depend .\output\infrare.d)
+F (.\User\src\infrare.c)(0x60BA52B3)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I .\CMSIS -I .\FWlib\inc -I .\FWlib\src -I .\User -I .\User\inc-I.\RTE\_BasicBalance-ID:\Arm_packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Arm_packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="534" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\output\infrare.o --omf_browse .\output\infrare.crf --depend .\output\infrare.d)
 I (.\FWlib\inc\stm32f10x_gpio.h)(0x587591E9)
 I (.\CMSIS\stm32f10x.h)(0x587591E9)
 I (.\CMSIS\core_cm3.h)(0x58AD07BB)
@@ -312,7 +312,7 @@ I (.\User\inc\mpu6050.h)(0x60B99AFD)
 I (.\User\inc\control.h)(0x60BA1BED)
 I (.\User\inc\debug.h)(0x5FDB5D3A)
 I (.\User\inc\usart.h)(0x58D63CE6)
-F (.\User\main.c)(0x60BA1C3E)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I .\CMSIS -I .\FWlib\inc -I .\FWlib\src -I .\User -I .\User\inc-I.\RTE\_BasicBalance-ID:\Arm_packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Arm_packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="534" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\output\main.o --omf_browse .\output\main.crf --depend .\output\main.d)
+F (.\User\main.c)(0x60BA53D8)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I .\CMSIS -I .\FWlib\inc -I .\FWlib\src -I .\User -I .\User\inc-I.\RTE\_BasicBalance-ID:\Arm_packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Arm_packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="534" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\output\main.o --omf_browse .\output\main.crf --depend .\output\main.d)
 I (.\CMSIS\stm32f10x.h)(0x587591E9)
 I (.\CMSIS\core_cm3.h)(0x58AD07BB)
 I (D:\Keil\ARM\ARMCC\include\stdint.h)(0x5E8E3CC2)
@@ -340,7 +340,7 @@ I (.\User\inc\ultrasonic.h)(0x58D63CD3)
 I (.\User\inc\infrare.h)(0x60B79129)
 I (.\User\inc\manage.h)(0x594CB91C)
 I (.\User\inc\avoidance.h)(0x60BA0D58)
-I (.\User\inc\trace.h)(0x60BA1C6E)
+I (.\User\inc\trace.h)(0x60BA52B3)
 F (.\User\stm32f10x_it.c)(0x60B99AFD)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I .\CMSIS -I .\FWlib\inc -I .\FWlib\src -I .\User -I .\User\inc-I.\RTE\_BasicBalance-ID:\Arm_packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Arm_packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="534" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\output\stm32f10x_it.o --omf_browse .\output\stm32f10x_it.crf --depend .\output\stm32f10x_it.d)
 I (User\stm32f10x_it.h)(0x587591E0)
 I (.\CMSIS\stm32f10x.h)(0x587591E9)
@@ -376,7 +376,7 @@ I (.\User\inc\usart.h)(0x58D63CE6)
 I (.\User\inc\dataflash.h)(0x58D63C07)
 I (.\User\inc\common.h)(0x60BA0EBA)
 I (.\User\inc\manage.h)(0x594CB91C)
-F (.\User\src\control.c)(0x60BA1C4A)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I .\CMSIS -I .\FWlib\inc -I .\FWlib\src -I .\User -I .\User\inc-I.\RTE\_BasicBalance-ID:\Arm_packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Arm_packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="534" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\output\control.o --omf_browse .\output\control.crf --depend .\output\control.d)
+F (.\User\src\control.c)(0x60BA5497)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I .\CMSIS -I .\FWlib\inc -I .\FWlib\src -I .\User -I .\User\inc-I.\RTE\_BasicBalance-ID:\Arm_packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Arm_packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="534" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\output\control.o --omf_browse .\output\control.crf --depend .\output\control.d)
 I (D:\Keil\ARM\ARMCC\include\math.h)(0x5E8E3CC2)
 I (D:\Keil\ARM\ARMCC\include\stdio.h)(0x5E8E3CC2)
 I (.\User\inc\control.h)(0x60BA1BED)
@@ -439,12 +439,14 @@ I (.\FWlib\inc\stm32f10x_usart.h)(0x587591E9)
 I (.\FWlib\inc\misc.h)(0x587591E9)
 F (.\User\src\manage.c)(0x60042B53)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I .\CMSIS -I .\FWlib\inc -I .\FWlib\src -I .\User -I .\User\inc-I.\RTE\_BasicBalance-ID:\Arm_packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Arm_packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="534" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\output\manage.o --omf_browse .\output\manage.crf --depend .\output\manage.d)
 I (.\User\inc\manage.h)(0x594CB91C)
-F (.\User\src\avoidance.c)(0x60BA1979)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I .\CMSIS -I .\FWlib\inc -I .\FWlib\src -I .\User -I .\User\inc-I.\RTE\_BasicBalance-ID:\Arm_packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Arm_packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="534" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\output\avoidance.o --omf_browse .\output\avoidance.crf --depend .\output\avoidance.d)
+F (.\User\src\avoidance.c)(0x60BA5403)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I .\CMSIS -I .\FWlib\inc -I .\FWlib\src -I .\User -I .\User\inc-I.\RTE\_BasicBalance-ID:\Arm_packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Arm_packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="534" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\output\avoidance.o --omf_browse .\output\avoidance.crf --depend .\output\avoidance.d)
 I (.\User\inc\avoidance.h)(0x60BA0D58)
 I (.\User\inc\common.h)(0x60BA0EBA)
 I (.\User\inc\control.h)(0x60BA1BED)
 I (.\User\inc\ultrasonic.h)(0x58D63CD3)
-F (.\User\src\trace.c)(0x60BA1CB0)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I .\CMSIS -I .\FWlib\inc -I .\FWlib\src -I .\User -I .\User\inc-I.\RTE\_BasicBalance-ID:\Arm_packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Arm_packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="534" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\output\trace.o --omf_browse .\output\trace.crf --depend .\output\trace.d)
-I (.\User\inc\trace.h)(0x60BA1C6E)
+I (.\User\inc\trace.h)(0x60BA52B3)
+F (.\User\src\trace.c)(0x60BA52B3)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I .\CMSIS -I .\FWlib\inc -I .\FWlib\src -I .\User -I .\User\inc-I.\RTE\_BasicBalance-ID:\Arm_packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Arm_packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="534" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\output\trace.o --omf_browse .\output\trace.crf --depend .\output\trace.d)
+I (.\User\inc\trace.h)(0x60BA52B3)
 I (.\User\inc\common.h)(0x60BA0EBA)
 I (.\User\inc\control.h)(0x60BA1BED)
+I (.\User\inc\infrare.h)(0x60B79129)

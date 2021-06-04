@@ -124,6 +124,7 @@ void CarUpstandInit(void)
 	g_s32RightMotorPulseCum = 0;
 	g_s32MotorPulseDiffCum = 0;
 	g_s32MotorPulseSumCum = 0;
+	g_iCarMotorPulseDiffCumSet = 0;
 }
 
 
