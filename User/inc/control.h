@@ -13,7 +13,7 @@ typedef struct _PID_t{
 #define M_PI 3.14159265359
 #define    GYRO_OFFSET      0          //ÍÓÂÝÒÇÁãµãÆ«ÒÆÖµ
 //#define 	 GRAVITY_OFFSET   (g_iGravity_Offset)      			//
-#define    CAR_ZERO_ANGLE   (2)
+#define    CAR_ZERO_ANGLE   (0)
 #define CAR_ANGLE_SET 0
 #define CAR_ANGLE_SPEED_SET 0
 #define YAW_ANGLE_SPEED_SET 0
@@ -74,8 +74,8 @@ extern int g_s32RightMotorPulseCum;
 extern float g_iCarSpeedSet;
 extern int g_iCarMotorPulseDiffCumSet;
 extern int g_s32MotorPulseDiffCum;
-extern int g_s32MotorPulseDiffCumTotal;
 extern int g_s32MotorPulseSumCum;
+extern int g_s32MotorPulseSumTotal;
 
 void CarUpstandInit(void);
 void MotorManage(void);

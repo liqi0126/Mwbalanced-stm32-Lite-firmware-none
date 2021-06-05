@@ -529,6 +529,11 @@
           <GroupName>USER</GroupName>
           <Files>
             <File>
+              <FileName>control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\control.c</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\main.c</FilePath>
@@ -549,11 +554,6 @@
               <FilePath>.\User\src\communicate.c</FilePath>
             </File>
             <File>
-              <FileName>control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\control.c</FilePath>
-            </File>
-            <File>
               <FileName>dataflash.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\dataflash.c</FilePath>
@@ -569,14 +569,14 @@
               <FilePath>.\User\src\manage.c</FilePath>
             </File>
             <File>
-              <FileName>avoidance.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\avoidance.c</FilePath>
-            </File>
-            <File>
               <FileName>trace.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\trace.c</FilePath>
+            </File>
+            <File>
+              <FileName>avoidance.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\avoidance.c</FilePath>
             </File>
           </Files>
         </Group>

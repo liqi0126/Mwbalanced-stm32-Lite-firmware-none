@@ -3,7 +3,7 @@
 #include "control.h"
 #include "infrare.h"
 
-int 	g_iTraceEnd = 1;
+int 	g_iTraceEnd = 0;
 char	g_cInfraredResult;
 int 	g_iLa;
 int 	g_iLc;
@@ -19,6 +19,9 @@ void Trace(void) {
 	if(cnt >= 15)
 	{
 		g_iTraceEnd = 1;
+		g_iCarSpeedSet = 20;
+		g_fBluetoothDirection = 0;
+		g_s32MotorPulseSumTotal = 0;
 		EnableDirectionControl();
 		return;
 	}	
@@ -41,36 +44,34 @@ void Trace(void) {
 		g_fBluetoothDirection = 480;
 	}
 	*/
-
-	else if(g_iLa)
-	{
-		g_fBluetoothDirection = 120;
-		g_iCarSpeedSet = 13;
-		cnt -= 1;
-	}
-	else if(g_iRa)
-	{
-		g_fBluetoothDirection = -120;
-		g_iCarSpeedSet = 13;
-		cnt -= 1;
-	}
 	else if(g_iLc)
 	{
-		g_iCarSpeedSet = 8;
-		g_fBluetoothDirection = 400;
+		g_iCarSpeedSet = 6;
+		g_fBluetoothDirection = -300;
 		cnt -= 1;
 	}
 	else if(g_iRc)
 	{
-		g_iCarSpeedSet = 8;
-		g_fBluetoothDirection = -400;
+		g_iCarSpeedSet = 6;
+		g_fBluetoothDirection = 300;
 		cnt -= 1;
 	}
-
+	else if(g_iLa)
+	{
+		g_fBluetoothDirection = -150;
+		g_iCarSpeedSet = 8;
+		cnt -= 1;
+	}
+	else if(g_iRa)
+	{
+		g_fBluetoothDirection = 150;
+		g_iCarSpeedSet = 8;
+		cnt -= 1;
+	}
 	else
 	{
 		g_fBluetoothDirection = 0;
-		g_iCarSpeedSet = 18;
+		g_iCarSpeedSet = 10;
 		cnt -= 1;
 	}
 }

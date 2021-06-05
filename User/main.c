@@ -62,11 +62,12 @@ int main(void)
 	
 	ShowHomePageInit();
 	
-	EnableDirectionControl();
+	DisableDirectionControl();
 	while (1)
 	{
 		SecTask();			//秒级任务
 		
+		/*
 		if(SoftTimer[1] == 0)
 		{// 每隔20ms 执行一次
 			SoftTimer[1] = 20;
@@ -80,15 +81,14 @@ int main(void)
 			SoftTimer[2] = 20;
 			ShowHomePage();
 		}
+		*/
 
 		// Ours
 		if(SoftTimer[3] == 0) {
+			SoftTimer[3] = 2;
 			if (!g_iTraceEnd) {	// 先寻迹
-				SoftTimer[3] = 2;
-				DisableDirectionControl();
 				Trace();
 			} else {	// 再避障
-				SoftTimer[3] = 2;
 				Read_Distane();
 				Avoidance();
 			}

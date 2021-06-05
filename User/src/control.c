@@ -29,7 +29,6 @@ unsigned char g_u8DirectionControlCount;
 
 unsigned char g_cMotorDisable = 0;//值等于0时电机正常转动，否则停止转动
 
-
 int g_iGravity_Offset = 0;
 
 /******电机控制参数******/
@@ -55,6 +54,7 @@ int  g_s32RightMotorPulseCum;
 int	 g_s32MotorPulseDiff;
 int  g_s32MotorPulseDiffCum;
 int g_s32MotorPulseSumCum;
+int g_s32MotorPulseSumTotal;
 
 float g_fCarSpeed;
 float g_iCarSpeedSet;
@@ -125,6 +125,7 @@ void CarUpstandInit(void)
 	g_s32MotorPulseDiffCum = 0;
 	g_s32MotorPulseSumCum = 0;
 	g_iCarMotorPulseDiffCumSet = 0;
+	g_s32MotorPulseSumTotal = 0;
 }
 
 
@@ -349,6 +350,7 @@ void GetMotorPulse(void)  //采集电机速度脉冲
 	g_s32RightMotorPulseCum += g_s16RightMotorPulse;
 	g_s32MotorPulseDiffCum += g_s16LeftMotorPulse - g_s16RightMotorPulse;
 	g_s32MotorPulseSumCum += g_s16LeftMotorPulse + g_s16RightMotorPulse;
+	g_s32MotorPulseSumTotal += g_s16LeftMotorPulse + g_s16RightMotorPulse;
 	
   g_s32LeftMotorPulseSigma +=  g_s16LeftMotorPulse;
   g_s32RightMotorPulseSigma += g_s16RightMotorPulse; 
@@ -385,6 +387,7 @@ void AngleCalculate(void)
 	
 	//-------互补滤波---------------
 	g_fCarAngle = 0.98 * (g_fCarAngle + g_fGyroAngleSpeed * 0.005) + 0.02 *	g_fGravityAngle;
+	g_fCarAngle = g_fCarAngle - CAR_ZERO_ANGLE;
 }
 
 /***************************************************************
@@ -625,8 +628,8 @@ void EnableDirectionControl(void) {
 
 void MoveForward(int distance) {
 	if (distance >= 100) {
-		g_iCarSpeedSet = 85;   // 向前无障碍物, 直行
+		g_iCarSpeedSet = 50;   // 向前无障碍物, 直行
 	} else {
-		g_iCarSpeedSet = 60;
+		g_iCarSpeedSet = 40;
 	}
 }
