@@ -24,6 +24,7 @@ int pitchSideDistance = 10;
 int pitchDistance = 20;
 
 int stopCnt = 0;
+int stopTimer = 0;
 
 void Turn(int angle) {
 	g_iCarSpeedSet = 0;
@@ -37,10 +38,13 @@ void Turn(int angle) {
 }
 
 void Avoidance(void) {
-	if(stopCnt > 0)
-		stopCnt-=2;
+
 	
 	if (finished) {
+		if(stopTimer++ > 1500)
+			g_iCarSpeedSet = 0;
+		else
+			g_iCarSpeedSet = 20;
 		return;
 	}
 	if (turning) {
@@ -50,19 +54,25 @@ void Avoidance(void) {
 			g_s32MotorPulseSumCum = 0;
 		}
 	} else {
-		getInfraraResult();
-		if(g_iLa && g_iLc && g_iRa && g_iRc && g_s32MotorPulseSumTotal >= 5000) { // 红外检测停止
-			g_iCarSpeedSet = 1;
-			stopCnt+=3;
-			return;
-		}
+		
 		if(stopCnt >= 400)
 		{
 			finished = 1;
-			g_iCarSpeedSet = 0;
-			DisableDirectionControl();
+			g_iCarSpeedSet = 10;
+			EnableDirectionControl();
 			return;
 		}
+		
+		if(stopCnt > 0)
+			stopCnt-=2;
+		
+		getInfraraResult();
+		if(g_iLa && g_iLc && g_iRa && g_iRc && g_s32MotorPulseSumTotal >= 5000) { // 红外检测停止
+			g_iCarSpeedSet = 5;
+			stopCnt+=3;
+			return;
+		}
+
 		if (direction == 0) {
 			if (Distance > 0 && Distance < obstacleDistance) {  // 否则转弯
 				if (!rightVisited) {	// 先向右转
@@ -105,6 +115,17 @@ void Avoidance(void) {
 					pitchingRightChecking = 1;
 					Turn(45);
 				}
+				/*
+				if (Distance > 0 && Distance < obstacleDistance) {
+					Turn(90);
+					pitching = 0;
+				} else {
+					Turn(0);
+					direction = 0;
+					rightVisited = 0;
+					pitching = 0;
+				}
+				*/
 			} else if (g_s32MotorPulseSumCum >= 2 * DistanceToMotorPulse(pitchDistance)) { // 每前进50cm, 回到正面检查一次
 				pitching = 1;
 				Turn(0);
@@ -147,6 +168,17 @@ void Avoidance(void) {
 					pitchingRightChecking = 1;
 					Turn(45);
 				}
+				/*
+				if (Distance > 0 && Distance < obstacleDistance) {
+					Turn(-90);
+					pitching = 0;
+				} else {
+					Turn(0);
+					direction = 0;
+					rightVisited = 0;
+					pitching = 0;
+				}
+				*/
 			} else if (g_s32MotorPulseSumCum >= 2 * DistanceToMotorPulse(pitchDistance)) { // 每前进40cm, 回到正面检查一次
 				pitching = 1;
 				Turn(0);

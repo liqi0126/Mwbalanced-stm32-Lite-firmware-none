@@ -628,8 +628,8 @@ void EnableDirectionControl(void) {
 
 void MoveForward(int distance) {
 	if (distance >= 100) {
-		g_iCarSpeedSet = 50;   // 向前无障碍物, 直行
+		g_iCarSpeedSet = 65;   // 向前无障碍物, 直行
 	} else {
-		g_iCarSpeedSet = 40;
+		g_iCarSpeedSet = 55;
 	}
 }

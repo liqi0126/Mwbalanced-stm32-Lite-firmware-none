@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Output\BasicBalance.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Output\BasicBalance.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Sat Jun 05 12:59:36 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Sun Jun 06 10:08:29 2021
 <BR><P>
 <H3>Maximum Stack Usage =        256 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1750,12 +1750,12 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[107]"></a>DisableDirectionControl</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, control.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Avoidance
-<LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR><BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[125]"></a>EnableDirectionControl</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, control.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Trace
+<LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Avoidance
 </UL>
 
 <P><STRONG><a name="[127]"></a>MoveForward</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, control.o(.text))
@@ -2017,13 +2017,13 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Avoidance
 </UL>
 
-<P><STRONG><a name="[109]"></a>Avoidance</STRONG> (Thumb, 808 bytes, Stack size 8 bytes, avoidance.o(.text))
+<P><STRONG><a name="[109]"></a>Avoidance</STRONG> (Thumb, 840 bytes, Stack size 8 bytes, avoidance.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = Avoidance &rArr; getInfraraResult &rArr; InfraredDetect
 </UL>
 <BR>[Calls]<UL><LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Turn
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getInfraraResult
 <LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MoveForward
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisableDirectionControl
+<LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnableDirectionControl
 </UL>
 <BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
