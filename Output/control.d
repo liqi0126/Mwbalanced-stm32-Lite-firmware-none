@@ -23,3 +23,4 @@
 .\output\control.o: .\FWlib\inc\misc.h
 .\output\control.o: .\User\inc\ultrasonic.h
 .\output\control.o: .\User\inc\infrare.h
+.\output\control.o: .\User\inc\common.h

@@ -529,11 +529,6 @@
           <GroupName>USER</GroupName>
           <Files>
             <File>
-              <FileName>control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\control.c</FilePath>
-            </File>
-            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\main.c</FilePath>
@@ -567,6 +562,11 @@
               <FileName>manage.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\manage.c</FilePath>
+            </File>
+            <File>
+              <FileName>control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\control.c</FilePath>
             </File>
             <File>
               <FileName>trace.c</FileName>

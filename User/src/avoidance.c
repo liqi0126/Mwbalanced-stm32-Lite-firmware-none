@@ -14,37 +14,42 @@ int turningMotorDiff = 0;
 int finished = 0;
 int rightVisited = 0;
 
-int pitched = 0;
-int pitching = 0;
-int pitchingLeftChecking = 0;
-int pitchingRightChecking = 0;
+int obstacleDistance = 25;
+int obstacleTriggle = 8;
+int obstacleCnt = 0;
 
-int obstacleDistance = 18;
-int pitchSideDistance = 10;
-int pitchDistance = 20;
 
 int stopCnt = 0;
 int stopTimer = 0;
 
 void Turn(int angle) {
-	g_iCarSpeedSet = 0;
+	g_iCarSpeedSet = 32;
 	turning = 1;
 	g_iCarMotorPulseDiffCumSet = AngleToMotorPulse(angle);
 	if (g_iCarMotorPulseDiffCumSet < g_s32MotorPulseDiffCum) {
-		g_fBluetoothDirection = -50;
+		g_fBluetoothDirection = -10;
 	} else {
-		g_fBluetoothDirection = 50;
+		g_fBluetoothDirection = 10;
 	}
 }
 
-void Avoidance(void) {
-
-	
+void Avoidance(void) {	
 	if (finished) {
-		if(stopTimer++ > 1500)
+		if(stopTimer++ > 100) {
 			g_iCarSpeedSet = 0;
-		else
-			g_iCarSpeedSet = 20;
+			g_tCarAnglePID.P = 0;
+			g_tCarAnglePID.I = 0;
+			g_tCarAnglePID.D = 0;
+			g_tCarSpeedPID.P = 0;
+			g_tCarSpeedPID.I = 0;
+			g_tCarAnglePID.D = 0;
+			g_tPulseDiffPID.P = 0;
+			g_tPulseDiffPID.I = 0;
+			g_tPulseDiffPID.D = 0;
+		}
+		else {
+			g_iCarSpeedSet = 70;
+		}
 		return;
 	}
 	if (turning) {
@@ -54,8 +59,7 @@ void Avoidance(void) {
 			g_s32MotorPulseSumCum = 0;
 		}
 	} else {
-		
-		if(stopCnt >= 400)
+		if(stopCnt >= 300 / g_iTimer)
 		{
 			finished = 1;
 			g_iCarSpeedSet = 10;
@@ -63,9 +67,10 @@ void Avoidance(void) {
 			return;
 		}
 		
-		if(stopCnt > 0)
+		if(stopCnt > 0) {
 			stopCnt-=2;
-		
+		}
+			
 		getInfraraResult();
 		if(g_iLa && g_iLc && g_iRa && g_iRc && g_s32MotorPulseSumTotal >= 5000) { // 红外检测停止
 			g_iCarSpeedSet = 5;
@@ -74,65 +79,40 @@ void Avoidance(void) {
 		}
 
 		if (direction == 0) {
-			if (Distance > 0 && Distance < obstacleDistance) {  // 否则转弯
-				if (!rightVisited) {	// 先向右转
-					rightVisited = 1;
+			if (obstacleCnt > obstacleTriggle) {
+				obstacleCnt = 0;
+				if (g_iCarMotorPulseLeftDirectionCum >= 0) {	// 先向右转
 					Turn(90);
 					direction = 1;
 				} else {
 					Turn(-90);
 					direction = -1;
-				}						
+				}			
+			}
+			if (Distance > 0 && Distance < obstacleDistance && g_fCarAngle > -10.) {  // 否则转弯
+				obstacleCnt++;
 			} else {
 				MoveForward(Distance);
 			}
 		} else if (direction == 1) { // 向右探索
-			if (pitching) {
-				if (Distance > 0 && Distance < obstacleDistance) {
-					Turn(90);
-					pitching = 0;
-				} else {
-					Turn(0);
-					direction = 0;
-					rightVisited = 0;
-					pitching = 0;
-				}
-			} else if (g_s32MotorPulseSumCum >= 2 * DistanceToMotorPulse(pitchDistance)) { // 每前进50cm, 回到正面检查一次
-				pitching = 1;
+			if (obstacleCnt > obstacleTriggle) {
+				obstacleCnt = 0;
 				Turn(0);
-			} else {
-				if (Distance > 0 && Distance < obstacleDistance) { // 没找到出口，转回正面
-					Turn(0);
-					direction = 0;
-					pitching = 0;
-				}
-				else {		// 向右前进
-					MoveForward(Distance);
-				}
+				direction = 0;				
+			} else if (Distance > 0 && Distance < obstacleDistance && g_fCarAngle > -10.) { // 转回正面
+				obstacleCnt++;
+			} else {		// 向右前进
+				MoveForward(Distance);
 			}
 		} else {
-			if (pitching) {
-				if (Distance > 0 && Distance < obstacleDistance) {
-					Turn(-90);
-					pitching = 0;
-				} else {
-					Turn(0);
-					direction = 0;
-					rightVisited = 0;
-					pitching = 0;
-				}
-			} else if (g_s32MotorPulseSumCum >= 2 * DistanceToMotorPulse(pitchDistance)) { // 每前进40cm, 回到正面检查一次
-				pitching = 1;
+			if (obstacleCnt > obstacleTriggle) {
+				obstacleCnt = 0;
 				Turn(0);
-			} else {
-				if (Distance > 0 && Distance < obstacleDistance) {
-					Turn(0);
-					direction = 0;
-					rightVisited = 0;
-					pitching = 0;
-				} else {		// 向左前进
-					MoveForward(Distance);
-				}
+				direction = 0;
+			} else if (Distance > 0 && Distance < obstacleDistance && g_fCarAngle > -10.) { // 转回正面
+				obstacleCnt++;
+			} else {		// 向左前进
+				MoveForward(Distance);
 			}
 		}
 	}

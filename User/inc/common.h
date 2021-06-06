@@ -14,6 +14,8 @@
 #ifndef _COMMON_H
 #define _COMMON_H
 
+extern int g_iTimer;
+
 void delay_us(unsigned int n);
 void delay_ms(unsigned int n);
 void get_ms(unsigned long *time);

@@ -16,6 +16,8 @@
 #include "usart.h"
 
 
+int g_iTimer = 5;
+
 /*
 	ÑÓÊ±º¯Êı
 */

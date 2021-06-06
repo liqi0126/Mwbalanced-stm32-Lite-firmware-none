@@ -42,7 +42,6 @@ void SecTask()
 	LEDToggle();
 }
 
-
 /*
 	主函数入门，另外，控制功能函数在stm32f10x_it.c执行文件的滴答定时器中断服务函数里循环执行。
 */
@@ -75,17 +74,17 @@ int main(void)
 			 DebugService();			
 			 Parse(Uart3Buffer);
 		}
+		*/
 		
 		if(SoftTimer[2] == 0)
 		{
 			SoftTimer[2] = 20;
 			ShowHomePage();
 		}
-		*/
-
+		
 		// Ours
 		if(SoftTimer[3] == 0) {
-			SoftTimer[3] = 2;
+			SoftTimer[3] = g_iTimer;
 			if (!g_iTraceEnd) {	// 先寻迹
 				Trace();
 			} else {	// 再避障

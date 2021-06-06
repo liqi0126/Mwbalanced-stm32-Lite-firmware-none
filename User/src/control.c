@@ -19,7 +19,7 @@
 #include "bsp.h"
 #include "ultrasonic.h"
 #include "infrare.h"
-
+#include "common.h"
 
 unsigned char g_u8MainEventCount;
 unsigned char g_u8SpeedControlCount;
@@ -62,9 +62,10 @@ float g_fCarSpeedOld;
 float g_fCarPosition;
 
 int g_iCarMotorPulseDiffCumSet;
+int g_iCarMotorPulseLeftDirectionCum;
 
 /*-----角度环和速度环PID控制参数-----*/
-PID_t g_tCarAnglePID={17.0, 0, 23.0};	//*5 /10
+PID_t g_tCarAnglePID={18.0, 0, 25.0};	//*5 /10
 PID_t g_tCarSpeedPID={15.25, 1.08, 0};	//i/10
 PID_t g_tPulseDiffPID={5., 0.5, 0}; // TODO: PID ?
 /******蓝牙控制参数******/
@@ -352,6 +353,12 @@ void GetMotorPulse(void)  //采集电机速度脉冲
 	g_s32MotorPulseSumCum += g_s16LeftMotorPulse + g_s16RightMotorPulse;
 	g_s32MotorPulseSumTotal += g_s16LeftMotorPulse + g_s16RightMotorPulse;
 	
+	if (g_s32MotorPulseDiffCum <= AngleToMotorPulse(-90) + 200 && g_s32MotorPulseDiffCum >= AngleToMotorPulse(-90) - 200) {
+		g_iCarMotorPulseLeftDirectionCum += g_s32LeftMotorPulseCum + g_s32RightMotorPulseCum;
+	} else if (g_s32MotorPulseDiffCum <= AngleToMotorPulse(90) + 200 && g_s32MotorPulseDiffCum >= AngleToMotorPulse(90) - 200) {
+		g_iCarMotorPulseLeftDirectionCum -= g_s32LeftMotorPulseCum + g_s32RightMotorPulseCum;
+	}
+	
   g_s32LeftMotorPulseSigma +=  g_s16LeftMotorPulse;
   g_s32RightMotorPulseSigma += g_s16RightMotorPulse; 
 	g_s32MotorPulseDiff = g_s32LeftMotorPulseSigma - g_s32RightMotorPulseSigma;
@@ -619,10 +626,10 @@ void DisableDirectionControl(void) {
 
 
 void EnableDirectionControl(void) {
-	g_tPulseDiffPID.P = 5;
-	g_tPulseDiffPID.I = 0.5;
+	g_tPulseDiffPID.P = 3;
+	g_tPulseDiffPID.I = 0.3;
 	g_tPulseDiffPID.D = 0;
-	g_s32MotorPulseDiffCum = 0;
+	// g_s32MotorPulseDiffCum = 0;
 }
 
 
@@ -630,6 +637,6 @@ void MoveForward(int distance) {
 	if (distance >= 100) {
 		g_iCarSpeedSet = 65;   // 向前无障碍物, 直行
 	} else {
-		g_iCarSpeedSet = 55;
+		g_iCarSpeedSet = 60;
 	}
 }

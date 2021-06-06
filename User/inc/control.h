@@ -45,6 +45,8 @@ extern int  g_s32RightMotorPulseSigma;
 
 extern int  g_iGravity_Offset;
 
+extern int g_iCarMotorPulseLeftDirectionCum;
+
 extern float g_fCarAngle;    
 extern float g_fYawAngle;
 extern float g_fGyroAngleSpeed;		   			

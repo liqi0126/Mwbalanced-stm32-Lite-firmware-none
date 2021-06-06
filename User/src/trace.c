@@ -16,19 +16,21 @@ void Trace(void) {
 	getInfraraResult();
 	if(cnt < 0)
 		cnt = 0;
-	if(cnt >= 15)
+	if(cnt >= 30 / g_iTimer)
 	{
 		g_iTraceEnd = 1;
 		g_iCarSpeedSet = 20;
 		g_fBluetoothDirection = 0;
 		g_s32MotorPulseSumTotal = 0;
+		g_iCarMotorPulseLeftDirectionCum = 0;
 		EnableDirectionControl();
 		return;
 	}	
-	
+
+	g_iCarSpeedSet = 30;
 	if(g_iRa && g_iRc && g_iLa && g_iLc)
 	{
-		g_iCarSpeedSet = -1;
+// g_iCarSpeedSet = -1;
 		g_fBluetoothDirection = 0;
 		cnt ++;
 	}
@@ -46,32 +48,26 @@ void Trace(void) {
 	*/
 	else if(g_iLc)
 	{
-		g_iCarSpeedSet = 6;
-		g_fBluetoothDirection = -300;
+		g_fBluetoothDirection = -260;
 		cnt -= 1;
 	}
 	else if(g_iRc)
 	{
-		g_iCarSpeedSet = 6;
-		g_fBluetoothDirection = 300;
+		g_fBluetoothDirection = 260;
 		cnt -= 1;
 	}
 	else if(g_iLa)
 	{
-		g_fBluetoothDirection = -150;
-		g_iCarSpeedSet = 8;
+		g_fBluetoothDirection = -140;
 		cnt -= 1;
 	}
 	else if(g_iRa)
 	{
-		g_fBluetoothDirection = 150;
-		g_iCarSpeedSet = 8;
+		g_fBluetoothDirection = 140;
 		cnt -= 1;
 	}
 	else
 	{
-		g_fBluetoothDirection = 0;
-		g_iCarSpeedSet = 10;
 		cnt -= 1;
 	}
 }
