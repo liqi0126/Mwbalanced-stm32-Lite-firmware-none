@@ -88,34 +88,6 @@ void Avoidance(void) {
 			}
 		} else if (direction == 1) { // 向右探索
 			if (pitching) {
-				if (pitchingRightChecking) {
-					pitchingRightChecking = 0;
-					if (Distance > 0 && Distance < pitchSideDistance) {
-						Turn(90);
-						pitching = 0;
-					} else {
-						pitchingLeftChecking = 1;
-						Turn(-45);
-					}
-				} else if (pitchingLeftChecking) {
-					pitchingLeftChecking = 0;
-					if (Distance > 0 && Distance < pitchSideDistance) {
-						Turn(90);
-						pitching = 0;
-					} else {
-						Turn(0);
-						direction = 0;
-						rightVisited = 0;
-						pitching = 0;
-					}
-				} else if (Distance > 0 && Distance < obstacleDistance) { // 否则回到右边继续前进
-					pitching = 0;
-					Turn(90);
-				} else {
-					pitchingRightChecking = 1;
-					Turn(45);
-				}
-				/*
 				if (Distance > 0 && Distance < obstacleDistance) {
 					Turn(90);
 					pitching = 0;
@@ -125,7 +97,6 @@ void Avoidance(void) {
 					rightVisited = 0;
 					pitching = 0;
 				}
-				*/
 			} else if (g_s32MotorPulseSumCum >= 2 * DistanceToMotorPulse(pitchDistance)) { // 每前进50cm, 回到正面检查一次
 				pitching = 1;
 				Turn(0);
@@ -141,34 +112,6 @@ void Avoidance(void) {
 			}
 		} else {
 			if (pitching) {
-				if (pitchingRightChecking) {
-					pitchingRightChecking = 0;
-					if (Distance > 0 && Distance < pitchSideDistance) {
-						Turn(-90);
-						pitching = 0;
-					} else {
-						pitchingLeftChecking = 1;
-						Turn(-45);
-					}
-				} else if (pitchingLeftChecking) {
-					pitchingLeftChecking = 0;
-					if (Distance > 0 && Distance < pitchSideDistance) {
-						Turn(-90);
-						pitching = 0;
-					} else {
-						Turn(0);
-						direction = 0;
-						rightVisited = 0;
-						pitching = 0;
-					}
-				} else if (Distance > 0 && Distance < obstacleDistance) { // 否则回到左边继续前进
-					pitching = 0;
-					Turn(-90);
-				} else {
-					pitchingRightChecking = 1;
-					Turn(45);
-				}
-				/*
 				if (Distance > 0 && Distance < obstacleDistance) {
 					Turn(-90);
 					pitching = 0;
@@ -178,7 +121,6 @@ void Avoidance(void) {
 					rightVisited = 0;
 					pitching = 0;
 				}
-				*/
 			} else if (g_s32MotorPulseSumCum >= 2 * DistanceToMotorPulse(pitchDistance)) { // 每前进40cm, 回到正面检查一次
 				pitching = 1;
 				Turn(0);
