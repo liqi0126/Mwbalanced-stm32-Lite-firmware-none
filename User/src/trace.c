@@ -27,43 +27,30 @@ void Trace(void) {
 		return;
 	}	
 
-	g_iCarSpeedSet = 30;
+	g_iCarSpeedSet = 32;
 	if(g_iRa && g_iRc && g_iLa && g_iLc)
 	{
-// g_iCarSpeedSet = -1;
 		g_fBluetoothDirection = 0;
 		cnt ++;
 	}
-	/*
-	else if(Rc && Ra)
-	{
-		g_iCarSpeedSet = 5;
-		g_fBluetoothDirection = -480;
-	}
-	else if(Lc && La)
-	{
-		g_iCarSpeedSet = 5;
-		g_fBluetoothDirection = 480;
-	}
-	*/
 	else if(g_iLc)
 	{
-		g_fBluetoothDirection = -260;
+		g_fBluetoothDirection = -250;
 		cnt -= 1;
 	}
 	else if(g_iRc)
 	{
-		g_fBluetoothDirection = 260;
+		g_fBluetoothDirection = 250;
 		cnt -= 1;
 	}
 	else if(g_iLa)
 	{
-		g_fBluetoothDirection = -140;
+		g_fBluetoothDirection = -130;
 		cnt -= 1;
 	}
 	else if(g_iRa)
 	{
-		g_fBluetoothDirection = 140;
+		g_fBluetoothDirection = 130;
 		cnt -= 1;
 	}
 	else

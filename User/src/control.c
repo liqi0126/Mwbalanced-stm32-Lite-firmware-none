@@ -67,7 +67,7 @@ int g_iCarMotorPulseLeftDirectionCum;
 /*-----角度环和速度环PID控制参数-----*/
 PID_t g_tCarAnglePID={18.0, 0, 25.0};	//*5 /10
 PID_t g_tCarSpeedPID={15.25, 1.08, 0};	//i/10
-PID_t g_tPulseDiffPID={5., 0.5, 0}; // TODO: PID ?
+PID_t g_tPulseDiffPID={3., 0.3, 0}; // TODO: PID ?
 /******蓝牙控制参数******/
 float g_fBluetoothSpeed;
 float g_fBluetoothDirection;
@@ -635,8 +635,8 @@ void EnableDirectionControl(void) {
 
 void MoveForward(int distance) {
 	if (distance >= 100) {
-		g_iCarSpeedSet = 65;   // 向前无障碍物, 直行
+		g_iCarSpeedSet = 70;   // 向前无障碍物, 直行
 	} else {
-		g_iCarSpeedSet = 60;
+		g_iCarSpeedSet = 65;
 	}
 }
